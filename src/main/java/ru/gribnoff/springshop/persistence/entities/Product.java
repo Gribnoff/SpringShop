@@ -5,6 +5,7 @@ import ru.gribnoff.springshop.persistence.entities.enums.ProductCategory;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,9 +26,13 @@ public class Product {
 
     private boolean available;
 
-    @OneToOne
-    @JoinColumn(name = "image")
-    private Image image;
+    @OneToMany
+    @JoinTable(
+            name = "product_image",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "image_id")
+    )
+    private List<Image> images;
 
     @Enumerated(EnumType.ORDINAL)
     private ProductCategory category;

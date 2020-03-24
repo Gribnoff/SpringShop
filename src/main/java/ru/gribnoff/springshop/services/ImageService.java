@@ -17,6 +17,7 @@ import java.io.IOException;
 
 import java.nio.charset.MalformedInputException;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -26,13 +27,17 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
 
-    private String getImageForProduct(UUID id) {
-        return imageRepository.obtainImageNameByProductId(id);
+    private List<String> getImagesForProduct(UUID productId) {
+        return imageRepository.getImagesNamesByProductId(productId);
+    }
+
+    private String getImageNameById(UUID imageId) {
+        return imageRepository.getImageNameByImageId(imageId);
     }
 
     public BufferedImage loadFileAsResource(String id) throws IOException {
         try {
-            String imageName = getImageForProduct(UUID.fromString(id));
+            String imageName = getImageNameById(UUID.fromString(id));
             Resource resource = new ClassPathResource("/static/images/" + imageName);
             if (resource.exists()) {
                 return ImageIO.read(resource.getFile());
@@ -40,6 +45,7 @@ public class ImageService {
                 log.error("Image not found!");
                 throw new FileNotFoundException("File " + imageName + " not found!");
             }
+
         } catch (MalformedInputException | FileNotFoundException ex) {
             return null;
         }

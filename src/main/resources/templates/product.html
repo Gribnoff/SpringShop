@@ -11,7 +11,10 @@
         <div class="container">
             <h1>[[ ${product.title} ]]</h1>
             <div>
-                <img th:src="@{'/products/images/' + ${product.id}}" alt="" />
+<!--                <tr th:each="product, iterator : ${products}">-->
+                <span th:each="image : ${product.images}">
+                    <img th:src="@{'/products/images/' + ${image.id}}" alt="" />
+                </span>
             </div>
         </div>
     </body>

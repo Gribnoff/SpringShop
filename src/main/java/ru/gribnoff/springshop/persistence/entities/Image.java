@@ -2,9 +2,7 @@ package ru.gribnoff.springshop.persistence.entities;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -20,4 +18,12 @@ public class Image implements Serializable {
     private UUID id;
 
     private String name;
+
+    @ManyToOne
+    @JoinTable(
+            name = "product_image",
+            joinColumns = @JoinColumn(name = "image_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private Product product;
 }
