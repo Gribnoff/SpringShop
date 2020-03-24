@@ -1,0 +1,17 @@
+server:
+  port: 8189
+  servlet:
+    context-path: /springshop
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/springshop?useSSL=false&serverTimezone=UTC
+    driver: org.postgresql.Driver
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+  thymeleaf:
+    cache: false
