@@ -7,6 +7,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import ru.gribnoff.springshop.persistence.repositories.ImageRepository;
+import ru.gribnoff.springshop.util.UUIDValidator;
 
 import javax.imageio.ImageIO;
 
@@ -37,16 +38,20 @@ public class ImageService {
 
     public BufferedImage loadFileAsResource(String id) throws IOException {
         try {
-            String imageName = getImageNameById(UUID.fromString(id));
-            Resource resource = new ClassPathResource("/static/images/" + imageName);
-            if (resource.exists()) {
-                return ImageIO.read(resource.getFile());
+            if (UUIDValidator.isUUID(id)) {
+                String imageName = getImageNameById(UUID.fromString(id));
+                Resource resource = new ClassPathResource("/static/images/" + imageName);
+                if (resource.exists()) {
+                    return ImageIO.read(resource.getFile());
+                } else {
+                    log.error("Image not found!");
+                    throw new FileNotFoundException("File " + imageName + " not found!");
+                }
             } else {
-                log.error("Image not found!");
-                throw new FileNotFoundException("File " + imageName + " not found!");
+                log.error("Page parameter is not UUID");
+                throw new IllegalArgumentException("Wrong argument type!");
             }
-
-        } catch (MalformedInputException | FileNotFoundException ex) {
+        } catch (MalformedInputException | FileNotFoundException | IllegalArgumentException ex) {
             return null;
         }
     }
