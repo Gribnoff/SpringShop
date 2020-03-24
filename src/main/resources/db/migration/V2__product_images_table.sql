@@ -1,24 +1,16 @@
 CREATE TABLE IF NOT EXISTS public.product_image
 (
-    product_id uuid NOT NULL,
-    image_id uuid NOT NULL,
-    CONSTRAINT product_image_pkey PRIMARY KEY (product_id, image_id),
-    CONSTRAINT image_fkey FOREIGN KEY (image_id)
-        REFERENCES public.images (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-    CONSTRAINT product_fkey FOREIGN KEY (product_id)
-        REFERENCES public.products (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
+	product_id uuid not null
+		constraint product_fkey
+			references products,
+	image_id uuid not null
+		constraint image_fkey
+			references images,
+	constraint products_images_pkey
+		primary key (product_id, image_id)
+);
 
-ALTER TABLE public.product_image
-    OWNER to postgres;
+alter table product_image owner to postgres;
 
 INSERT INTO public.images (id, name) VALUES ('25490baa-4788-4a64-aad1-cb2ec1b38bd4', 'apple_1.png');
 
@@ -34,5 +26,5 @@ INSERT INTO public.product_image (product_id, image_id)
 			('08b39bd2-5357-43f1-aa3e-d1b9ce028e5e', '25490baa-4788-4a64-aad1-cb2ec1b38bd4');
 
 ALTER TABLE public.products
-    DROP COLUMN image;
+    DROP COLUMN IF EXISTS image;
 
