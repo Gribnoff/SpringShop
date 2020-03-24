@@ -31,18 +31,14 @@ public class ProductController {
     @SuppressWarnings("unused")
     @GetMapping("/{id}")
     public String getOneProduct(Model model, @PathVariable String id) throws ProductNotFoundException {
-
-        //TODO утилита, которая будет проверять UUID
-
         model.addAttribute("product", productService.findOneById(UUID.fromString(id)));
         return "product";
     }
 
     @SuppressWarnings("unused")
+    @ResponseBody
     @GetMapping(value = "/images/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-    public @ResponseBody byte[] getImage(@PathVariable String id) {
-
-        //TODO сделать поддержку нескольких картинок
+    public byte[] getImage(@PathVariable String id) {
 
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
