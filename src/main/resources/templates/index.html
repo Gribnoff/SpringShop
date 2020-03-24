@@ -27,6 +27,8 @@
             </form>
             <hr>
 
+            <a class="nav-link" th:href="@{/cart}" th:text="Корзина + '(' + ${cart.size() + ')'}">CART</a>
+
             <table class="table table-hover">
                 <thead class="thead-dark">
                 <tr>
@@ -36,6 +38,7 @@
                     <th>Описание</th>
                     <th>Цена</th>
                     <th>Дата добавления</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -54,6 +57,11 @@
                             <td th:text="${product.description}"/>
                             <td th:text="${product.price}"/>
                             <td th:text="${#dates.format(product.added, 'dd-MM-yyyy')}"/>
+                            <td>
+                                <a th:href="@{'/cart/add/' + ${product.id}}">
+                                    <img th:src="@{'/products/images/cart.png'}" alt="" width="30px" height="30px" />
+                                </a>
+                            </td>
                         </span>
                     </tr>
                 </tbody>

@@ -15,6 +15,7 @@ import ru.gribnoff.springshop.services.ProductService;
 
 import javax.imageio.ImageIO;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -38,14 +39,14 @@ public class ProductController {
     @SuppressWarnings("unused")
     @ResponseBody
     @GetMapping(value = "/images/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-    public byte[] getImage(@PathVariable String id) {
-
-        try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ImageIO.write(imageService.loadFileAsResource(id), "png", byteArrayOutputStream);
+    public byte[] getImage(@PathVariable String id) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        BufferedImage bufferedImage = imageService.loadFileAsResource(id);
+        if (bufferedImage != null) {
+            ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
             return byteArrayOutputStream.toByteArray();
-        } catch (IOException e) {
-            throw new RuntimeException();
+        } else {
+            return new byte[0];
         }
     }
 

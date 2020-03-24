@@ -26,6 +26,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageService {
 
+    private final static String STATIC_ICONS_PATH = "/static/icons/";
+    private final static String STATIC_IMAGES_PATH = "/static/images/";
+
     private final ImageRepository imageRepository;
 
     private List<String> getImagesForProduct(UUID productId) {
@@ -38,22 +41,15 @@ public class ImageService {
 
     public BufferedImage loadFileAsResource(String id) throws IOException {
         try {
-            if (UUIDValidator.isUUID(id)) {
-                String imageName = getImageNameById(UUID.fromString(id));
-                Resource resource = new ClassPathResource("/static/images/" + imageName);
-                if (resource.exists()) {
-                    return ImageIO.read(resource.getFile());
-                } else {
-                    log.error("Image not found!");
-                    throw new FileNotFoundException("File " + imageName + " not found!");
-                }
-            } else {
-                log.error("Page parameter is not UUID");
-                throw new IllegalArgumentException("Wrong argument type!");
-            }
-        } catch (MalformedInputException | FileNotFoundException | IllegalArgumentException ex) {
+            Resource resource = UUIDValidator.isUUID(id)
+                    ? new ClassPathResource(STATIC_IMAGES_PATH + getImageNameById(UUID.fromString(id)))
+                    : new ClassPathResource(STATIC_ICONS_PATH + id);
+
+            return resource.exists()
+                    ? ImageIO.read(resource.getFile())
+                    : ImageIO.read(new ClassPathResource(STATIC_ICONS_PATH + "image_not_found.png").getFile());
+        } catch (MalformedInputException | IllegalArgumentException ex) {
             return null;
         }
     }
-
 }
