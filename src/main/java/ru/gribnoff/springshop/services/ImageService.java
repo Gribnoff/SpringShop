@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import ru.gribnoff.springshop.persistence.entities.Image;
 import ru.gribnoff.springshop.persistence.repositories.ImageRepository;
 import ru.gribnoff.springshop.util.UUIDValidator;
 
@@ -13,7 +14,6 @@ import javax.imageio.ImageIO;
 
 import java.awt.image.BufferedImage;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.nio.charset.MalformedInputException;
@@ -35,14 +35,14 @@ public class ImageService {
         return imageRepository.getImagesNamesByProductId(productId);
     }
 
-    private String getImageNameById(UUID imageId) {
-        return imageRepository.getImageNameByImageId(imageId);
+    private Image getImageNameById(UUID imageId) {
+        return imageRepository.findImageById(imageId);
     }
 
     public BufferedImage loadFileAsResource(String id) throws IOException {
         try {
             Resource resource = UUIDValidator.isUUID(id)
-                    ? new ClassPathResource(STATIC_IMAGES_PATH + getImageNameById(UUID.fromString(id)))
+                    ? new ClassPathResource(STATIC_IMAGES_PATH + getImageNameById(UUID.fromString(id)).getName())
                     : new ClassPathResource(STATIC_ICONS_PATH + id);
 
             return resource.exists()

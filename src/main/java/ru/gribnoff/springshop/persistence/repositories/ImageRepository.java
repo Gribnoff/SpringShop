@@ -15,8 +15,8 @@ public interface ImageRepository extends JpaRepository<Image, UUID> {
             "WHERE p.id = :id", nativeQuery = true)
     List<String> getImagesNamesByProductId(@Param("id") UUID id);
 
-    @Query(value = "SELECT name FROM public.images " +
-            "WHERE id = :id", nativeQuery = true)
-    String getImageNameByImageId(@Param("id") UUID id);
-
+//    @Query(value = "SELECT name FROM public.images " +
+//            "WHERE id = :id", nativeQuery = true)
+//    String getImageNameByImageId(@Param("id") UUID id);
+    Image findImageById(@Param("id") UUID id);
 }
