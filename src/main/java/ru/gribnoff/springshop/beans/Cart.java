@@ -18,7 +18,8 @@ import java.util.UUID;
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Cart implements Serializable {
-    private static final long SUID = 1L;
+
+    private static final long serialVersionUID = -292689907925405143L;
 
     private List<CartRecord> cartRecords;
     private Double price;
@@ -26,6 +27,11 @@ public class Cart implements Serializable {
     @PostConstruct
     public void init() {
         cartRecords = new ArrayList<>();
+    }
+
+    public void clear() {
+        cartRecords.clear();
+        recalculatePrice();
     }
 
     public void add(Product product) {

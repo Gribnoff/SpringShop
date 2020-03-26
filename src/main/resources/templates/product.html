@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="EN">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="EN">
     <head>
         <meta charset="utf-8"/>
         <title>SpringShop</title>
@@ -11,8 +13,8 @@
         <div class="container">
             <h1>[[ ${product.title} ]]</h1>
             <div>
-<!--                <tr th:each="product, iterator : ${products}">-->
                 <span th:each="image : ${product.images}">
+                    <!--suppress RequiredAttributes -->
                     <img th:src="@{'/products/images/' + ${image.id}}" alt="" />
                 </span>
             </div>

@@ -1,29 +1,25 @@
 package ru.gribnoff.springshop.persistence.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import ru.gribnoff.springshop.persistence.entities.util.PersistableEntity;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "images")
-public class Image implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class Image extends PersistableEntity implements Serializable {
 
-    private static final long SUID = 1L;
-
-    @Id
-    private UUID id;
+    private static final long serialVersionUID = 1L;
 
     private String name;
 
-    @ManyToOne
-    @JoinTable(
-            name = "product_image",
-            joinColumns = @JoinColumn(name = "image_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private Product product;
 }

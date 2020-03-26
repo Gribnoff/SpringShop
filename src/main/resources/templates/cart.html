@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="EN">
 <head>
     <meta charset="utf-8"/>
     <title>Spring Shop - Корзина</title>
-    <link rel="stylesheet" th:href="@{../static/css/stylesheet.css}">
+    <link rel="stylesheet" th:href="@{../../../../static/css/stylesheet.css}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 </head>
 <body>
@@ -23,21 +25,21 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="cartRecord : ${cart.cartRecords}">
-                <td th:text="${cartRecord.product.title}"/>
-                <td th:text="${cartRecord.product.price}"/>
-                <td th:text="${cartRecord.quantity}"/>
-                <td th:text="${cartRecord.price}"/>
+            <tr th:each="cartRecord : ${cart.cartRecords}" th:object="${cartRecord}">
+                <td th:text="*{product.title}"></td>
+                <td th:text="*{product.price}"></td>
+                <td th:text="*{quantity}"></td>
+                <td th:text="*{price}"></td>
                 <td>
                     <a th:href="@{'/cart/remove/' + ${cartRecord.product.id}}" class="btn btn-danger">Удалить</a>
                 </td>
             </tr>
             </tbody>
         </table>
-        <span th:text="'Общая стоимость: ' + ${cart.price}" />
+        <span th:text="'Общая стоимость: ' + ${cart.price}"></span>
     </div>
     <div th:if="${cart.cartRecords.size() == 0}">
-        <span text="Ваша корзина пуста" />
+        <span text="Ваша корзина пуста"></span>
     </div>
 </div>
 

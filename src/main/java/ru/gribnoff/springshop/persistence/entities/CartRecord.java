@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Table(name = "cart_records")
 @EqualsAndHashCode(callSuper = true)
 public class CartRecord extends PersistableEntity {
+
     private Integer quantity;
     private Double price;
 

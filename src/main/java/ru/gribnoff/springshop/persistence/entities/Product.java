@@ -1,29 +1,26 @@
 package ru.gribnoff.springshop.persistence.entities;
 
-import lombok.Data;
+import lombok.*;
 import ru.gribnoff.springshop.persistence.entities.enums.ProductCategory;
+import ru.gribnoff.springshop.persistence.entities.util.PersistableEntity;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "products")
-public class Product {
-
-    @Id
-    private UUID id;
+@EqualsAndHashCode(callSuper = true)
+public class Product extends PersistableEntity {
 
     private String title;
-
     private Date added;
-
     private Double price;
-
     private String description;
-
     private boolean available;
 
     @OneToMany

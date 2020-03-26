@@ -1,12 +1,12 @@
 CREATE TABLE IF NOT EXISTS public.product_image
 (
 	product_id uuid not null
-		constraint product_fkey
+		constraint product_fk
 			references products,
 	image_id uuid not null
-		constraint image_fkey
+		constraint image_fk
 			references images,
-	constraint products_images_pkey
+	constraint products_images_pk
 		primary key (product_id, image_id)
 );
 

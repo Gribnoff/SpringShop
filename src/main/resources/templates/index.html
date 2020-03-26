@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<!--suppress CheckEmptyScriptTag -->
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="EN">
+<!--suppress HtmlUnknownTag -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      lang="EN">
     <head>
         <meta charset="utf-8"/>
         <title>SpringShop</title>
@@ -12,19 +15,6 @@
             <div style="text-align: center;">
                 <h1>Spring Shop</h1>
             </div>
-
-            Категория продуктов:
-            <form th:action="@{/}" method="get">
-                <select name="category">
-                    <option th:text="'Не выбрано'" th:value="null"/>
-                    <!--suppress ThymeleafVariablesResolveInspection -->
-                    <option th:each="category : ${T(ru.gribnoff.springshop.persistence.entities.enums.ProductCategory).values()}"
-                            th:value="${category.ordinal()}"
-                            th:text="${category.name}"
-                    />
-                </select>
-                <button type="submit">применить</button>
-            </form>
             <hr>
 
             <a class="nav-link" th:href="@{/cart}" th:text="Корзина + '(' + ${cart.size() + ')'}">CART</a>
@@ -34,7 +24,7 @@
                 <tr>
                     <th>#</th>
                     <th>Наименование</th>
-                    <th>Картинка</th>
+                    <th>Фото</th>
                     <th>Описание</th>
                     <th>Цена</th>
                     <th>Дата добавления</th>
@@ -42,21 +32,23 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="product, iterator : ${products}">
-                        <span th:if="${product.available}">
-                            <td th:text="${iterator.index + 1}"/>
+                    <tr th:each="product, iterator : ${products}" th:object="${product}">
+                        <span th:if="*{available}">
+                            <td th:text="${iterator.index + 1}"></td>
                             <td>
-                                <a th:href="@{'/products/' + ${product.id}}">[[ ${product.title} ]]</a>
+                                <a th:href="@{'/products/' + ${product.id}}">[[ *{title} ]]</a>
                             </td>
                             <td>
                                 <div>
+                                    <!--suppress RequiredAttributes -->
                                     <img th:src="@{'/products/images/' + ${product.images[0].id}}" alt="" width="50px" height="50px" />
-                                    <img th:if="${product.images.size() > 1}" th:src="@{'/products/images/' + ${product.images[1].id}}" alt="" width="50px" height="50px" />
+                                    <!--suppress RequiredAttributes -->
+                                    <img th:if="*{images.size() > 1}" th:src="@{'/products/images/' + ${product.images[1].id}}" alt="" width="50px" height="50px" />
                                 </div>
                             </td>
-                            <td th:text="${product.description}"/>
-                            <td th:text="${product.price}"/>
-                            <td th:text="${#dates.format(product.added, 'dd-MM-yyyy')}"/>
+                            <td th:text="*{description}"></td>
+                            <td th:text="*{price}"></td>
+                            <td th:text="*{#dates.format(added, 'dd-MM-yyyy')}"></td>
                             <td>
                                 <a th:href="@{'/cart/add/' + ${product.id}}">
                                     <img th:src="@{'/products/images/cart.png'}" alt="" width="30px" height="30px" />
@@ -66,6 +58,25 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div class="row">
+                <div class="col-sm">
+                    Категория продуктов:
+                    <form th:action="@{/}" method="get">
+                        <label>
+                            <select name="category">
+                                <option th:text="'Не выбрано'" th:value="null"></option>
+                                <!--suppress ThymeleafVariablesResolveInspection -->
+                                <option th:each="category : ${T(ru.gribnoff.springshop.persistence.entities.enums.ProductCategory).values()}"
+                                        th:value="${category.ordinal()}"
+                                        th:text="${category.name}">
+                                </option>
+                            </select>
+                        </label>
+                        <button type="submit">применить</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </body>
 </html>
