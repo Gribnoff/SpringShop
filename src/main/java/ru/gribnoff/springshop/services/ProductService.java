@@ -2,15 +2,21 @@ package ru.gribnoff.springshop.services;
 
 import lombok.RequiredArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.gribnoff.springshop.exceptions.ProductNotFoundException;
+import ru.gribnoff.springshop.persistence.entities.Image;
 import ru.gribnoff.springshop.persistence.entities.Product;
 import ru.gribnoff.springshop.persistence.entities.enums.ProductCategory;
+import ru.gribnoff.springshop.persistence.pojo.ProductPojo;
 import ru.gribnoff.springshop.persistence.repositories.ProductRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -29,8 +35,21 @@ public class ProductService {
                 : productRepository.findAllByCategory(ProductCategory.values()[category]);
     }
 
-    public List<Product> findAll() {
-        return productRepository.findAll();
-    }
+    @Transactional
+    public String save(ProductPojo productPogo, List<Image> images) {
 
+        Product product = Product.builder()
+                .added(new Date())
+                .title(productPogo.getTitle())
+                .description(productPogo.getDescription())
+                .price(productPogo.getPrice())
+                .available(productPogo.isAvailable())
+                .category(productPogo.getCategory())
+                .images(images)
+                .build();
+
+        productRepository.save(product);
+        log.info("New Product has been succesfully added! {}", product);
+        return "redirect:/";
+    }
 }
