@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import ru.gribnoff.springshop.persistence.entities.util.PersistableEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -15,4 +15,11 @@ public class Purchase extends PersistableEntity {
     private Double price;
     private String address;
     private String phone;
+
+    @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL)
+    private List<CartRecord> cartRecords;
+
+    @ManyToOne
+    @JoinColumn(name = "shopuser")
+    private ShopUser shopUser;
 }

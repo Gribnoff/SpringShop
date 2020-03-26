@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ru.gribnoff.springshop.persistence.entities.Image;
 import ru.gribnoff.springshop.persistence.repositories.ImageRepository;
 import ru.gribnoff.springshop.util.UUIDValidator;
@@ -51,5 +52,9 @@ public class ImageService {
         } catch (MalformedInputException | IllegalArgumentException ex) {
             return null;
         }
+    }
+
+    public Image uploadImage(MultipartFile image, String title) {
+        return null;
     }
 }
