@@ -2,10 +2,10 @@ package ru.gribnoff.springshop.persistence.entities;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import ru.gribnoff.springshop.persistence.entities.enums.Role;
 import ru.gribnoff.springshop.persistence.entities.util.PersistableEntity;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -23,13 +23,8 @@ public class ShopUser extends PersistableEntity {
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany
-    @JoinTable(
-            name = "shopuser_role",
-            joinColumns = @JoinColumn(name = "shopuser"),
-            inverseJoinColumns = @JoinColumn(name = "role")
-    )
-    private Collection<Role> roles;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "shopUser")
     private List<Purchase> purchase;
