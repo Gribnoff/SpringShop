@@ -16,8 +16,8 @@ import java.awt.image.BufferedImage;
 
 import java.io.IOException;
 
-import java.nio.charset.MalformedInputException;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,8 +26,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageService {
 
-    private final static String STATIC_ICONS_PATH = "/static/icons/";
-    private final static String STATIC_IMAGES_PATH = "/static/images/";
+    @Value("${files.storepath.images}")
+    private Path IMAGES_PATH;
+
+    @Value("${files.storepath.icons}")
+    private Path ICONS_PATH;
 
     private final ImageRepository imageRepository;
 
@@ -40,16 +43,22 @@ public class ImageService {
     }
 
     public BufferedImage loadFileAsResource(String id) throws IOException {
-        try {
             Resource resource = UUIDValidator.isUUID(id)
-                    ? new ClassPathResource(STATIC_IMAGES_PATH + getImageNameById(UUID.fromString(id)).getName())
-                    : new ClassPathResource(STATIC_ICONS_PATH + id);
+                    ? new UrlResource(IMAGES_PATH
+                        .resolve(getImageNameById(UUID.fromString(id)).getName())
+                        .normalize()
+                        .toUri())
+                    : new UrlResource(ICONS_PATH
+                        .resolve(id)
+                        .normalize()
+                        .toUri());
 
             return resource.exists()
                     ? ImageIO.read(resource.getFile())
-                    : ImageIO.read(new ClassPathResource(STATIC_ICONS_PATH + "image_not_found.png").getFile());
-        } catch (MalformedInputException | IllegalArgumentException ex) {
-            return null;
-        }
+                    : ImageIO.read(new UrlResource(ICONS_PATH
+                        .resolve("image_not_found.png")
+                        .normalize()
+                        .toUri())
+                        .getFile());
     }
 }
