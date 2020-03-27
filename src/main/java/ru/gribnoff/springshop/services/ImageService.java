@@ -6,9 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import ru.gribnoff.springshop.exceptions.UnsupportedMediaTypeException;
 import ru.gribnoff.springshop.persistence.entities.Image;
 import ru.gribnoff.springshop.persistence.repositories.ImageRepository;
 import ru.gribnoff.springshop.util.UUIDValidator;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -72,10 +75,27 @@ public class ImageService {
         if (image.isEmpty() || uploadedFileName == null)
             throw new FileNotFoundException("File not specified");
         else {
-            Path path;
-            path = Paths.get(PRODUCT_IMAGES_PATH.resolve(uploadedFileName).toUri().normalize());
-            image.transferTo(path);
+            if (isValidImageExtension(image)) {
+                Path path;
+                path = Paths.get(PRODUCT_IMAGES_PATH.resolve(uploadedFileName).toUri().normalize());
+                image.transferTo(path);
+            }
         }
         return imageRepository.save(new Image(uploadedFileName));
+    }
+
+    private boolean isValidImageExtension(MultipartFile image) {
+
+        switch (Objects.requireNonNull(image.getContentType())) {
+
+            case MediaType.IMAGE_JPEG_VALUE:
+            case MediaType.IMAGE_PNG_VALUE:
+            case MediaType.IMAGE_GIF_VALUE:
+                return true;
+
+            default:
+                throw new UnsupportedMediaTypeException("Error! This file type is not supported!");
+
+        }
     }
 }
