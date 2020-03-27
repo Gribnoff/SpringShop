@@ -112,6 +112,9 @@
                         <button type="submit">применить</button>
                     </form>
                 </div>
+                <div class="col-sm">
+                    <a sec:authorize="hasRole('ADMIN')" class="nav-link" th:href="@{/admin}" th:text="admin">ADMIN</a>
+                </div>
             </div>
         </div>
     </body>

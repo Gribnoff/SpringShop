@@ -39,7 +39,7 @@ create unique index shopuser_id_uindex
     on shopusers (id);
 
 alter table purchases
-    add shopuser uuid default '' not null ;
+    add shopuser uuid default uuid_generate_v4() not null ;
 
 alter table purchases
     add constraint purchases_shop_fk
