@@ -6,7 +6,6 @@ server:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/springshop?useSSL=false&serverTimezone=UTC
-    driver: org.postgresql.Driver
     username: postgres
     password: postgres
   jpa:
@@ -15,3 +14,8 @@ spring:
       ddl-auto: validate
   thymeleaf:
     cache: false
+
+files:
+  storepath:
+    icons:  "B:\\myProjects\\SpringShop\\images\\icons"
+    images: "B:\\myProjects\\SpringShop\\images\\product_images"

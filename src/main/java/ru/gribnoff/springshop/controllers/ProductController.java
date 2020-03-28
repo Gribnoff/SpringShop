@@ -54,7 +54,7 @@ public class ProductController {
 
     @PostMapping
     public String addProductToDatabase(@RequestParam("image") MultipartFile image, ProductPojo productPojo) throws IOException {
-        Image img = imageService.uploadImage(image, productPojo.getTitle());
+        Image img = imageService.uploadImage(image);
         return productService.save(productPojo, new ArrayList<>(Collections.singletonList(img)));
     }
 }

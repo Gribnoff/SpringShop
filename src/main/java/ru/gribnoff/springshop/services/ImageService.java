@@ -3,10 +3,14 @@ package ru.gribnoff.springshop.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import ru.gribnoff.springshop.exceptions.UnsupportedMediaTypeException;
 import ru.gribnoff.springshop.persistence.entities.Image;
 import ru.gribnoff.springshop.persistence.repositories.ImageRepository;
 import ru.gribnoff.springshop.util.UUIDValidator;
@@ -15,11 +19,13 @@ import javax.imageio.ImageIO;
 
 import java.awt.image.BufferedImage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import java.nio.charset.MalformedInputException;
-
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -27,8 +33,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageService {
 
-    private final static String STATIC_ICONS_PATH = "/static/icons/";
-    private final static String STATIC_IMAGES_PATH = "/static/images/";
+    @Value("${files.storepath.images}")
+    private Path PRODUCT_IMAGES_PATH;
+
+    @Value("${files.storepath.icons}")
+    private Path ICONS_PATH;
 
     private final ImageRepository imageRepository;
 
@@ -41,20 +50,52 @@ public class ImageService {
     }
 
     public BufferedImage loadFileAsResource(String id) throws IOException {
-        try {
-            Resource resource = UUIDValidator.isUUID(id)
-                    ? new ClassPathResource(STATIC_IMAGES_PATH + getImageNameById(UUID.fromString(id)).getName())
-                    : new ClassPathResource(STATIC_ICONS_PATH + id);
+        Resource resource = UUIDValidator.isUUID(id)
+                ? new UrlResource(PRODUCT_IMAGES_PATH
+                .resolve(getImageNameById(UUID.fromString(id)).getName())
+                .normalize()
+                .toUri())
+                : new UrlResource(ICONS_PATH
+                .resolve(id)
+                .normalize()
+                .toUri());
 
-            return resource.exists()
-                    ? ImageIO.read(resource.getFile())
-                    : ImageIO.read(new ClassPathResource(STATIC_ICONS_PATH + "image_not_found.png").getFile());
-        } catch (MalformedInputException | IllegalArgumentException ex) {
-            return null;
-        }
+        return resource.exists()
+                ? ImageIO.read(resource.getFile())
+                : ImageIO.read(new UrlResource(ICONS_PATH
+                .resolve("image_not_found.png")
+                .normalize()
+                .toUri())
+                .getFile());
     }
 
-    public Image uploadImage(MultipartFile image, String title) {
-        return null;
+    @Transactional
+    public Image uploadImage(MultipartFile image) throws IOException {
+        String uploadedFileName = image.getOriginalFilename();
+        if (image.isEmpty() || uploadedFileName == null)
+            throw new FileNotFoundException("File not specified");
+        else {
+            if (isValidImageExtension(image)) {
+                Path path;
+                path = Paths.get(PRODUCT_IMAGES_PATH.resolve(uploadedFileName).toUri().normalize());
+                image.transferTo(path);
+            }
+        }
+        return imageRepository.save(new Image(uploadedFileName));
+    }
+
+    private boolean isValidImageExtension(MultipartFile image) {
+
+        switch (Objects.requireNonNull(image.getContentType())) {
+
+            case MediaType.IMAGE_JPEG_VALUE:
+            case MediaType.IMAGE_PNG_VALUE:
+            case MediaType.IMAGE_GIF_VALUE:
+                return true;
+
+            default:
+                throw new UnsupportedMediaTypeException("Error! This file type is not supported!");
+
+        }
     }
 }
