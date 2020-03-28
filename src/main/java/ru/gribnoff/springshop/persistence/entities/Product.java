@@ -26,8 +26,8 @@ public class Product extends PersistableEntity {
     @OneToMany
     @JoinTable(
             name = "product_image",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "image_id")
+            joinColumns = @JoinColumn(name = "product"),
+            inverseJoinColumns = @JoinColumn(name = "image")
     )
     private List<Image> images;
 

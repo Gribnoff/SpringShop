@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public interface ImageRepository extends JpaRepository<Image, UUID> {
     @Query(value = "SELECT images.name FROM public.images " +
-            "JOIN public.product_image pi ON images.id = pi.image_id " +
-            "JOIN public.products p on pi.product_id = p.id " +
+            "JOIN public.product_image pi ON images.id = pi.image " +
+            "JOIN public.products p on pi.product = p.id " +
             "WHERE p.id = :id", nativeQuery = true)
     List<String> getImagesNamesByProductId(@Param("id") UUID id);
 
