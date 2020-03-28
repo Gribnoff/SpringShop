@@ -49,7 +49,7 @@ public class ProductService {
                 .build();
 
         productRepository.save(product);
-        log.info("New Product has been succesfully added! {}", product);
+        log.info("New Product has been successfully added! {}", product);
         return "redirect:/";
     }
 }
