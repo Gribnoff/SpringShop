@@ -12,6 +12,8 @@ import ru.gribnoff.springshop.exceptions.WrongCaptchaCodeException;
 import ru.gribnoff.springshop.persistence.entities.Image;
 import ru.gribnoff.springshop.persistence.entities.Product;
 import ru.gribnoff.springshop.persistence.entities.Review;
+import ru.gribnoff.springshop.persistence.entities.ShopUser;
+import ru.gribnoff.springshop.persistence.entities.enums.ImageCategory;
 import ru.gribnoff.springshop.persistence.pojo.ProductPojo;
 import ru.gribnoff.springshop.persistence.pojo.ReviewPojo;
 import ru.gribnoff.springshop.services.ImageService;
@@ -55,10 +57,27 @@ public class ProductController {
 
     @SuppressWarnings("unused")
     @ResponseBody
-    @GetMapping(value = "/images/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-    public byte[] getImageById(@PathVariable String id) throws IOException {
+    @GetMapping(value = "/images/{id}", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    public byte[] getProductImageByImageId(@PathVariable String id) throws IOException {
+        return getImage(id, ImageCategory.PRODUCT_IMAGE);
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/icons/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] getIconByName(@PathVariable String id) throws IOException {
+        return getImage(id, ImageCategory.ICON);
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/reviews/images/{id}", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    public byte[] getReviewPhotoByImageId(@PathVariable String id) throws IOException {
+        return getImage(id, ImageCategory.REVIEW_PHOTO);
+    }
+
+    @ResponseBody
+    private byte[] getImage(String id, ImageCategory category) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        BufferedImage bufferedImage = imageService.loadFileAsResource(id);
+        BufferedImage bufferedImage = imageService.loadFileAsResource(id, category);
         if (bufferedImage != null) {
             ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
             return byteArrayOutputStream.toByteArray();
@@ -69,18 +88,21 @@ public class ProductController {
 
     @PostMapping
     public String addProductToDatabase(@RequestParam("image") MultipartFile image, ProductPojo productPojo) throws IOException {
-        Image img = imageService.uploadImage(image);
+        Image img = imageService.uploadImage(image, ImageCategory.PRODUCT_IMAGE);
         return productService.save(productPojo, new ArrayList<>(Collections.singletonList(img)));
     }
 
     @PostMapping("/reviews")
-    public String addReview(ReviewPojo reviewPojo, HttpSession session, Principal principal) throws ProductNotFoundException {
+    public String addReview(ReviewPojo reviewPojo, @RequestParam(value = "image", required = false) MultipartFile image, HttpSession session, Principal principal) throws ProductNotFoundException, IOException {
         if (reviewPojo.getCaptchaCode().toUpperCase().equals(session.getAttribute("captchaCode"))) {
             Product product = productService.findOneById(reviewPojo.getProductId());
+            ShopUser shopUser = shopUserService.findShopUserByPhone(principal.getName());
+            Image img = imageService.uploadReviewPhoto(image, product, shopUser);
             Review review = Review.builder()
-                    .comment(reviewPojo.getComment())
+                    .shopUser(shopUser)
                     .product(product)
-                    .shopUser(shopUserService.findShopUserByPhone(principal.getName()))
+                    .comment(reviewPojo.getComment())
+                    .image(img)
                     .build();
 
             reviewService.save(review);
