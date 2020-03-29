@@ -6,12 +6,14 @@ import ru.gribnoff.springshop.persistence.entities.util.PersistableEntity;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "reviews")
 @EqualsAndHashCode(callSuper = true)
 public class Review extends PersistableEntity {
 

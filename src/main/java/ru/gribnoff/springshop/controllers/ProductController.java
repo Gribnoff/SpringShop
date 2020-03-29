@@ -73,7 +73,7 @@ public class ProductController {
 
     @PostMapping("/reviews")
     public String addReview(ReviewPojo reviewPojo, Principal principal) throws ProductNotFoundException {
-        Product product = productService.findOneById(reviewPojo.getProduct());
+        Product product = productService.findOneById(reviewPojo.getProductId());
         Review review = Review.builder()
                 .comment(reviewPojo.getComment())
                 .product(product)
@@ -81,6 +81,6 @@ public class ProductController {
                 .build();
 
         reviewService.save(review);
-        return "redirect:/products/" +product.getId();
+        return "redirect:/products/" + product.getId();
     }
 }

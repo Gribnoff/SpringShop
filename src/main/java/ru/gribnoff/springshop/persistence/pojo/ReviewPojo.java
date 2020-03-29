@@ -7,5 +7,5 @@ import java.util.UUID;
 @Data
 public class ReviewPojo {
     private String comment;
-    private UUID product;
+    private UUID productId;
 }

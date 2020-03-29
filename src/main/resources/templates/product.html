@@ -35,7 +35,7 @@
                     <tbody th:if="${reviews.size() > 0}">
                     <tr th:each="review, iterator : ${reviews}" th:object="${review}">
                         <td th:text="${iterator.index + 1}"></td>
-                        <td th:text="*{shopUser}"></td>
+                        <td th:text="*{comment}"></td>
                         <td>
                             <a th:href="@{'/profile/' + ${review.shopUser.id}}">[[ *{shopUser.firstName} ]]</a>
                         </td>
@@ -48,21 +48,20 @@
                 <form action="#" th:action="@{/products/reviews}" method="POST">
                     <div class="form-row row justify-content-center">
                         <div class="form-group col-md-9">
-                            <textarea class="form-control" name="commentary" rows="5" style="resize: none;" placeholder="Введите ваш отзыв"></textarea>
+                            <textarea class="form-control" name="comment" rows="5" style="resize: none;" placeholder="Введите ваш отзыв"></textarea>
                         </div>
+                    </div><div class="form-row row justify-content-center">
+                    <div class="form-group col-md-3">
+<!--                        <input type="text" name="captchaCode" class="form-control" placeholder="Введите проверочный код">-->
+                        <input type="hidden" name="productId" th:value="${product.id}">
                     </div>
-                    <div class="form-row row justify-content-center">
-                        <div class="form-group col-md-3">
-                            <input type="text" name="captchaCode" class="form-control" placeholder="Введите проверочный код">
-                            <input type="hidden" name="productId" th:value="${product.id}">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <img class="captcha-pic" id="captcha" th:src="@{/captcha}" />
-                        </div>
-                        <div class="form-group col-md-3">
-                            <button type="submit" class="btn btn-success">оставить отзыв</button>
-                        </div>
+<!--                    <div class="form-group col-md-3">-->
+<!--                        <img class="captcha-pic" id="captcha" th:src="@{/captcha}" />-->
+<!--                    </div>-->
+                    <div class="form-group col-md-3">
+                        <button type="submit" class="btn btn-success">оставить отзыв</button>
                     </div>
+                </div>
                 </form>
             </div>
         </div>
