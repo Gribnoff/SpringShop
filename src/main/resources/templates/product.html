@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--suppress HtmlFormInputWithoutLabel, HtmlRequiredAltAttribute, RequiredAttributes -->
+<!--suppress HtmlFormInputWithoutLabel, HtmlRequiredAltAttribute, RequiredAttributes, ThymeleafVariablesResolveInspection -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml"
@@ -29,6 +29,7 @@
                     <tr>
                         <th>#</th>
                         <th>Текст отзыва</th>
+                        <th>Фото</th>
                         <th>Пользователь</th>
                     </tr>
                     </thead>
@@ -36,6 +37,10 @@
                     <tr th:each="review, iterator : ${reviews}" th:object="${review}">
                         <td th:text="${iterator.index + 1}"></td>
                         <td th:text="*{comment}"></td>
+                        <td>
+<!--                            <img th:src="@{'/products/reviews/images/' + ${review.product.title} + ${review.shopUser.firstName} + ${review.shopUser.lastName} + '.png'}" alt="" width="250px" height="250px" />-->
+                            <img th:src="@{'/products/reviews/images/' + ${review.image.id}}" alt="" width="250px" height="250px" />
+                        </td>
                         <td>
                             <a th:href="@{'/profile/' + ${review.shopUser.id}}">[[ *{shopUser.firstName} ]]</a>
                         </td>
@@ -45,23 +50,27 @@
             </div>
             <hr>
             <div class="container" style="text-align: center" sec:authorize="isAuthenticated()">
-                <form action="#" th:action="@{/products/reviews}" method="POST">
+                <form action="#" th:action="@{/products/reviews}" method="POST" enctype="multipart/form-data">
                     <div class="form-row row justify-content-center">
                         <div class="form-group col-md-9">
                             <textarea class="form-control" name="comment" rows="5" style="resize: none;" placeholder="Введите ваш отзыв"></textarea>
                         </div>
-                    </div><div class="form-row row justify-content-center">
-                    <div class="form-group col-md-3">
-                        <input type="text" id="captchaCode" name="captchaCode" class="form-control" placeholder="Введите проверочный код" maxlength="6">
-                        <input type="hidden" name="productId" th:value="${product.id}">
                     </div>
-                    <div class="form-group col-md-3">
-                        <img class="captcha-pic" id="captcha" th:src="@{/captcha}" />
+                    <div class="form-row row justify-content-center">
+                        <div class="form-group col-md-3">
+                            <input type="file" class="form-control" name="image"/>фото
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input type="text" id="captchaCode" name="captchaCode" class="form-control" placeholder="Введите проверочный код" maxlength="6">
+                            <input type="hidden" name="productId" th:value="${product.id}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <img class="captcha-pic" id="captcha" th:src="@{/captcha}" />
+                        </div>
+                        <div class="form-group col-md-3">
+                            <button type="submit" class="btn btn-success">оставить отзыв</button>
+                        </div>
                     </div>
-                    <div class="form-group col-md-3">
-                        <button type="submit" class="btn btn-success">оставить отзыв</button>
-                    </div>
-                </div>
                 </form>
             </div>
         </div>
