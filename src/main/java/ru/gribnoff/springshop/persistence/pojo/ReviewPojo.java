@@ -6,6 +6,7 @@ import java.util.UUID;
 
 @Data
 public class ReviewPojo {
-    private String comment;
     private UUID productId;
+    private String comment;
+    private String captchaCode;
 }

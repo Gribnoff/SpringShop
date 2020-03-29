@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gribnoff.springshop.exceptions.ProductNotFoundException;
+import ru.gribnoff.springshop.exceptions.WrongCaptchaCodeException;
 import ru.gribnoff.springshop.persistence.entities.Image;
 import ru.gribnoff.springshop.persistence.entities.Product;
 import ru.gribnoff.springshop.persistence.entities.Review;
@@ -19,6 +20,7 @@ import ru.gribnoff.springshop.services.ReviewService;
 import ru.gribnoff.springshop.services.ShopUserService;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -72,15 +74,18 @@ public class ProductController {
     }
 
     @PostMapping("/reviews")
-    public String addReview(ReviewPojo reviewPojo, Principal principal) throws ProductNotFoundException {
-        Product product = productService.findOneById(reviewPojo.getProductId());
-        Review review = Review.builder()
-                .comment(reviewPojo.getComment())
-                .product(product)
-                .shopUser(shopUserService.findShopUserByPhone(principal.getName()))
-                .build();
+    public String addReview(ReviewPojo reviewPojo, HttpSession session, Principal principal) throws ProductNotFoundException {
+        if (reviewPojo.getCaptchaCode().toUpperCase().equals(session.getAttribute("captchaCode"))) {
+            Product product = productService.findOneById(reviewPojo.getProductId());
+            Review review = Review.builder()
+                    .comment(reviewPojo.getComment())
+                    .product(product)
+                    .shopUser(shopUserService.findShopUserByPhone(principal.getName()))
+                    .build();
 
-        reviewService.save(review);
-        return "redirect:/products/" + product.getId();
+            reviewService.save(review);
+            return "redirect:/products/" + product.getId();
+        } else
+            throw new WrongCaptchaCodeException("Wrong captcha");
     }
 }
