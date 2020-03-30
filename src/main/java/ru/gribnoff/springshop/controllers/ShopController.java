@@ -16,7 +16,6 @@ import ru.gribnoff.springshop.util.CaptchaGenerator;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.Principal;
@@ -36,24 +35,6 @@ public class ShopController {
         model.addAttribute("cart", cart.getCartRecords());
         model.addAttribute("products", productService.findAll(category));
         return "index";
-    }
-
-    @GetMapping("/admin")
-    public String adminPage(Model model, @CookieValue(value = "data", required = false) String data, Principal principal) {
-
-        if (principal == null)
-            return "redirect:/";
-
-        if (data != null)
-            System.out.println(data);
-
-        model.addAttribute("products", productService.findAll(null));
-        return "admin";
-    }
-
-    @GetMapping("/admin/add_product")
-    public String addProductPage() {
-        return "addproduct";
     }
 
     @GetMapping("/profile")
