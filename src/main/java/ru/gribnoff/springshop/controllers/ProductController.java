@@ -87,9 +87,11 @@ public class ProductController {
     }
 
     @PostMapping
+    @SuppressWarnings("SpringMVCViewInspection")
     public String addProductToDatabase(@RequestParam("image") MultipartFile image, ProductPojo productPojo) throws IOException {
         Image img = imageService.uploadImage(image, ImageCategory.PRODUCT_IMAGE);
-        return productService.save(productPojo, new ArrayList<>(Collections.singletonList(img)));
+        productService.save(productPojo, new ArrayList<>(Collections.singletonList(img)));
+        return "redirect:/admin/";
     }
 
     @PostMapping("/reviews")
