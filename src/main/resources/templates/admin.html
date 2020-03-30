@@ -2,7 +2,6 @@
 <!--suppress HtmlFormInputWithoutLabel -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml"
       lang="EN">
     <head>
         <meta charset="utf-8"/>
@@ -16,7 +15,11 @@
                 <h1>Admin Page</h1>
             </div>
             <ul>
-                <li><a th:href="@{'/admin/add_product'}">Добавить товар</a></li>
+                <li><a class="nav-link" th:href="@{'/admin/add_product'}">Добавить товар</a></li>
+                <li>
+                    <a class="nav-link" th:href="@{'/admin/reviews'}"
+                       th:text="Отзывы + '(' + ${reviewsToApprove.size() + ')'}"></a>
+                </li>
             </ul>
             <hr>
 

@@ -22,3 +22,6 @@ alter table reviews
 alter table reviews
     add constraint reviews_image_fk
         foreign key (image) references images;
+
+alter table reviews
+    add approved boolean default false not null;

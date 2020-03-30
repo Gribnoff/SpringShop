@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "products")
+@ToString
 @EqualsAndHashCode(callSuper = true)
 public class Product extends PersistableEntity {
 
