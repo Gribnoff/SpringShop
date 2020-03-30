@@ -112,7 +112,7 @@ public class ProductController {
                     .approved(approved)
                     .build();
 
-            reviewService.save(review);
+            reviewService.saveReview(review);
             return "redirect:/products/" + product.getId();
         } else
             throw new WrongCaptchaCodeException("Wrong captcha");

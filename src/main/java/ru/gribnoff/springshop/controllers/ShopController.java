@@ -38,14 +38,11 @@ public class ShopController {
     }
 
     @GetMapping("/profile")
-    public String profilePage(Model model, @CookieValue(value = "data", required = false) String data, Principal principal) {
+    public String profilePage(Model model, Principal principal) {
         if (principal == null)
             return "redirect:/";
 
         model.addAttribute("shopUser", shopUserService.findShopUserByPhone(principal.getName()));
-
-        if (data != null)
-            System.out.println(data);
 
         return "profile";
     }

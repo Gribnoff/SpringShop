@@ -36,10 +36,11 @@ public class ReviewService {
     }
 
     @Transactional
-    public void save(Review review) {
+    public void saveReview(Review review) {
         reviewRepository.save(review);
     }
 
+    @Transactional
     public void removeReview(Review review) {
         reviewRepository.delete(review);
     }

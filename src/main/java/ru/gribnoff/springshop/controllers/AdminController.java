@@ -63,7 +63,7 @@ public class AdminController {
         reviewsToApprove.removeIf(review -> review.getId().equals(id));
         Review review = reviewService.getReviewById(id).get();
         review.setApproved(true);
-        reviewService.save(review);
+        reviewService.saveReview(review);
         return "redirect:/admin/reviews";
     }
 }
