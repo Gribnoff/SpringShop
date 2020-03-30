@@ -51,6 +51,11 @@ public class ShopController {
         return "admin";
     }
 
+    @GetMapping("/admin/add_product")
+    public String addProductPage() {
+        return "addproduct";
+    }
+
     @GetMapping("/profile")
     public String profilePage(Model model, @CookieValue(value = "data", required = false) String data, Principal principal) {
         if (principal == null)
