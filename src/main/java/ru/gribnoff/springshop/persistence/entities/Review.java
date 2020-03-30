@@ -26,4 +26,6 @@ public class Review extends PersistableEntity {
     @OneToOne
     @JoinColumn(name = "image")
     private Image image;
+
+    private boolean approved;
 }

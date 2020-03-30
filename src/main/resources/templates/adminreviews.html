@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--suppress HtmlFormInputWithoutLabel, RequiredAttributes -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="EN">
+<head>
+    <meta charset="utf-8"/>
+    <title>SuperShop</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+
+    <div style="text-align: center;">
+        <h1>Admin Page</h1>
+        <h3>Отзывы для одобрения</h3>
+    </div>
+    <hr>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Наименование товара</th>
+                <th>Текст отзыва</th>
+                <th>Фото</th>
+                <th>Пользователь</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody th:if="${reviewsToApprove.size() > 0}">
+            <tr th:each="review : ${reviewsToApprove}" th:object="${review}">
+                <td>
+                    <a th:href="@{'/products/' + ${review.product.id}}">[[ *{product.title} ]]</a>
+                </td>
+                <td th:text="*{comment}"></td>
+                <td>
+                    <span th:if="*{image != null}">
+                        <img th:src="@{'/products/reviews/images/' + ${review.image.id}}" alt="" width="250px" height="250px" />
+                    </span>
+                </td>
+                <td>
+                    <a th:href="@{'/profile/' + ${review.shopUser.id}}">[[ *{shopUser.firstName} ]]</a>
+                </td>
+                <td>
+                    <a th:href="@{'/admin/reviews/remove/' + ${review.id}}" class="btn btn-danger">Удалить</a>
+                    <a th:href="@{'/admin/reviews/approve/' + ${review.id}}" class="btn btn-danger">Одобрить</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

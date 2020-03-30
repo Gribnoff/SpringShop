@@ -11,6 +11,7 @@ import ru.gribnoff.springshop.persistence.repositories.ReviewRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +27,25 @@ public class ReviewService {
         return reviewRepository.findByShopUser(shopUser);
     }
 
+    public Optional<Review> getReviewById(UUID id) {
+        return reviewRepository.findById(id);
+    }
+
+    public Optional<List<Review>> getUnapprovedReviews() {
+        return reviewRepository.findByApproved(false);
+    }
+
     @Transactional
     public void save(Review review) {
         reviewRepository.save(review);
+    }
+
+    public void removeReview(Review review) {
+        reviewRepository.delete(review);
+    }
+
+    @Transactional
+    public void removeReviewById(UUID id) {
+        reviewRepository.removeById(id);
     }
 }

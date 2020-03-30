@@ -14,6 +14,7 @@ import ru.gribnoff.springshop.persistence.entities.Product;
 import ru.gribnoff.springshop.persistence.entities.Review;
 import ru.gribnoff.springshop.persistence.entities.ShopUser;
 import ru.gribnoff.springshop.persistence.entities.enums.ImageCategory;
+import ru.gribnoff.springshop.persistence.entities.enums.Role;
 import ru.gribnoff.springshop.persistence.pojo.ProductPojo;
 import ru.gribnoff.springshop.persistence.pojo.ReviewPojo;
 import ru.gribnoff.springshop.services.ImageService;
@@ -99,12 +100,16 @@ public class ProductController {
         if (reviewPojo.getCaptchaCode().toUpperCase().equals(session.getAttribute("captchaCode"))) {
             Product product = productService.findOneById(reviewPojo.getProductId());
             ShopUser shopUser = shopUserService.findShopUserByPhone(principal.getName());
-            Image img = imageService.uploadReviewPhoto(image, product, shopUser);
+            boolean approved = shopUser.getRole().equals(Role.ROLE_ADMIN);
+            Image img = !image.isEmpty()
+                    ? imageService.uploadReviewPhoto(image, product, shopUser)
+                    : null;
             Review review = Review.builder()
                     .shopUser(shopUser)
                     .product(product)
                     .comment(reviewPojo.getComment())
                     .image(img)
+                    .approved(approved)
                     .build();
 
             reviewService.save(review);

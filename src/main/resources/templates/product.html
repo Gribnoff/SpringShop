@@ -27,24 +27,25 @@
                 <table class="table table-hover">
                     <thead class="thead-dark">
                     <tr>
-                        <th>#</th>
                         <th>Текст отзыва</th>
                         <th>Фото</th>
                         <th>Пользователь</th>
                     </tr>
                     </thead>
                     <tbody th:if="${reviews.size() > 0}">
-                    <tr th:each="review, iterator : ${reviews}" th:object="${review}">
-                        <td th:text="${iterator.index + 1}"></td>
-                        <td th:text="*{comment}"></td>
-                        <td>
-<!--                            <img th:src="@{'/products/reviews/images/' + ${review.product.title} + ${review.shopUser.firstName} + ${review.shopUser.lastName} + '.png'}" alt="" width="250px" height="250px" />-->
-                            <img th:src="@{'/products/reviews/images/' + ${review.image.id}}" alt="" width="250px" height="250px" />
-                        </td>
-                        <td>
-                            <a th:href="@{'/profile/' + ${review.shopUser.id}}">[[ *{shopUser.firstName} ]]</a>
-                        </td>
-                    </tr>
+                        <tr th:each="review : ${reviews}" th:object="${review}">
+                            <span th:if="*{approved}">
+                                <td th:text="*{comment}"></td>
+                                <td>
+                                    <span th:if="*{image != null}">
+                                        <img th:src="@{'/products/reviews/images/' + ${review.image.id}}" alt="" width="250px" height="250px" />
+                                    </span>
+                                </td>
+                                <td>
+                                    <a th:href="@{'/profile/' + ${review.shopUser.id}}">[[ *{shopUser.firstName} ]]</a>
+                                </td>
+                            </span>
+                        </tr>
                     </tbody>
                 </table>
             </div>
