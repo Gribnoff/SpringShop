@@ -1,0 +1,70 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+}
+
+configurations {
+    compile.exclude module: "spring-boot-starter-tomcat"
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    jaxb
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets.main.java.srcDirs "src/main/generated"
+sourceSets.main.resources.excludes = ['payment.xsd']
+
+dependencies {
+
+    compileOnly "org.springframework.boot:spring-boot-devtools"
+
+    implementation "org.springframework.boot:spring-boot-starter-undertow"
+    implementation "org.jvnet.mimepull:mimepull:1.9.11"
+    implementation "org.springframework.boot:spring-boot-starter-web-services"
+
+    implementation "wsdl4j:wsdl4j:1.6.3"
+
+    jaxb (
+            'com.sun.xml.bind:jaxb-xjc:2.2.7',
+            'com.sun.xml.bind:jaxb-impl:2.2.7'
+    )
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+}
+
+task jaxb {
+
+    System.setProperty('javax.xml.accessExternalSchema', 'all')
+    def jaxbTargetDir = file("src/main/generated")
+
+    doLast {
+        jaxbTargetDir.mkdirs()
+
+        ant.taskdef(
+                name: 'xjc',
+                classname: 'com.sun.tools.xjc.XJCTask',
+                classpath: configurations.jaxb.asPath
+        )
+
+        ant.jaxbTargetDir = jaxbTargetDir
+
+        ant.xjc(
+                destdir: '${jaxbTargetDir}',
+                package: 'ru.gribnoff.soap.payment',
+                schema: 'src/main/resources/xsd/payment.xsd'
+        )
+    }
+}
+
+compileJava.dependsOn jaxb
+
+test {
+    useJUnitPlatform()
+}
