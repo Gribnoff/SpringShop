@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.gribnoff.springshop.persistence.entities.Review;
-import ru.gribnoff.springshop.services.ProductService;
-import ru.gribnoff.springshop.services.ReviewService;
+import ru.gribnoff.springshop.services.db.ProductService;
+import ru.gribnoff.springshop.services.db.ReviewService;
 
 import java.security.Principal;
 import java.util.ArrayList;

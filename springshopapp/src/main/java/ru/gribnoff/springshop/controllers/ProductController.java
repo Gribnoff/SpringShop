@@ -17,10 +17,10 @@ import ru.gribnoff.springshop.persistence.entities.enums.ImageCategory;
 import ru.gribnoff.springshop.persistence.entities.enums.Role;
 import ru.gribnoff.springshop.persistence.pojo.ProductPojo;
 import ru.gribnoff.springshop.persistence.pojo.ReviewPojo;
-import ru.gribnoff.springshop.services.ImageService;
-import ru.gribnoff.springshop.services.ProductService;
-import ru.gribnoff.springshop.services.ReviewService;
-import ru.gribnoff.springshop.services.ShopUserService;
+import ru.gribnoff.springshop.services.db.ImageService;
+import ru.gribnoff.springshop.services.db.ProductService;
+import ru.gribnoff.springshop.services.db.ReviewService;
+import ru.gribnoff.springshop.services.db.ShopUserService;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
@@ -101,9 +101,9 @@ public class ProductController {
             Product product = productService.findOneById(reviewPojo.getProductId());
             ShopUser shopUser = shopUserService.findShopUserByPhone(principal.getName());
             boolean approved = shopUser.getRole().equals(Role.ROLE_ADMIN);
-            Image img = !image.isEmpty()
-                    ? imageService.uploadReviewPhoto(image, product, shopUser)
-                    : null;
+            Image img = !image.isEmpty() ?
+                    imageService.uploadReviewPhoto(image, product, shopUser) :
+                    null;
             Review review = Review.builder()
                     .shopUser(shopUser)
                     .product(product)

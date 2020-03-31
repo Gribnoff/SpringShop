@@ -1,1 +1,3 @@
 rootProject.name = 'springshop'
+include 'springshopapp'
+

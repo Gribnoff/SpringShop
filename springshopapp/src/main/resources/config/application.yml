@@ -17,7 +17,7 @@ spring:
 
 files:
   storepath:
-    icons:  "B:\\myProjects\\SpringShop\\images\\icons"
-    product-images: "B:\\myProjects\\SpringShop\\images\\product_images"
-    review-photos: "B:\\myProjects\\SpringShop\\images\\review_photos"
-    images-dump: "B:\\myProjects\\SpringShop\\images\\dump"
+    icons:  "B:\\myProjects\\SpringShop\\springshopapp\\images\\icons"
+    product-images: "B:\\myProjects\\SpringShop\\springshopapp\\images\\product_images"
+    review-photos: "B:\\myProjects\\SpringShop\\springshopapp\\images\\review_photos"
+    images-dump: "B:\\myProjects\\SpringShop\\springshopapp\\images\\dump"

@@ -1,4 +1,4 @@
-package ru.gribnoff.springshop.services;
+package ru.gribnoff.springshop.services.db;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +51,7 @@ public class ImageService {
     private final ImageRepository imageRepository;
 
     private List<String> getImagesForProduct(UUID productId) {
-        return imageRepository.getImagesNamesByProductId(productId);
+        return imageRepository.findImagesNamesByProductId(productId);
     }
 
     private Image getImageNameById(UUID imageId) {
@@ -81,13 +81,13 @@ public class ImageService {
                 break;
         }
 
-        return resource.exists()
-                ? ImageIO.read(resource.getFile())
-                : ImageIO.read(new UrlResource(ICONS_PATH
-                .resolve("image_not_found.png")
-                .normalize()
-                .toUri())
-                .getFile());
+        return resource.exists() ?
+                ImageIO.read(resource.getFile()) :
+                ImageIO.read(new UrlResource(ICONS_PATH
+                        .resolve("image_not_found.png")
+                        .normalize()
+                        .toUri())
+                        .getFile());
     }
 
     @Transactional
@@ -106,10 +106,10 @@ public class ImageService {
 
     public Image uploadReviewPhoto(MultipartFile image, Product product, ShopUser shopUser) throws IOException {
         String fileExtension = getExtensionByStringHandling(image.getOriginalFilename()).get();
-        String uploadedFileName = product.getTitle()
-                + shopUser.getFirstName()
-                + shopUser.getLastName()
-                + "." + fileExtension;
+        String uploadedFileName = product.getTitle() +
+                shopUser.getFirstName() +
+                shopUser.getLastName() +
+                "." + fileExtension;
         if (image.isEmpty())
             throw new FileNotFoundException("File not specified");
         else {

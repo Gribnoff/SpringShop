@@ -4,13 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.gribnoff.springshop.beans.Cart;
-import ru.gribnoff.springshop.services.ProductService;
-import ru.gribnoff.springshop.services.ShopUserService;
+import ru.gribnoff.springshop.services.db.ProductService;
+import ru.gribnoff.springshop.services.db.ShopUserService;
 import ru.gribnoff.springshop.util.CaptchaGenerator;
 
 import javax.imageio.ImageIO;

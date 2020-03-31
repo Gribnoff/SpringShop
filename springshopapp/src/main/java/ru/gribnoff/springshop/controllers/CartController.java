@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.gribnoff.springshop.beans.Cart;
 import ru.gribnoff.springshop.exceptions.ProductNotFoundException;
-import ru.gribnoff.springshop.services.ProductService;
+import ru.gribnoff.springshop.services.db.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

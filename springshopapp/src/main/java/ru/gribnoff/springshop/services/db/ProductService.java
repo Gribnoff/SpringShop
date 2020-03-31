@@ -1,4 +1,4 @@
-package ru.gribnoff.springshop.services;
+package ru.gribnoff.springshop.services.db;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,9 +30,9 @@ public class ProductService {
     }
 
     public List<Product> findAll(Integer category) {
-        return category == null
-                ? productRepository.findAll()
-                : productRepository.findAllByCategory(ProductCategory.values()[category]);
+        return category == null ?
+                productRepository.findAll() :
+                productRepository.findAllByCategory(ProductCategory.values()[category]);
     }
 
     @Transactional

@@ -1,4 +1,4 @@
-package ru.gribnoff.springshop.services;
+package ru.gribnoff.springshop.services.db;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

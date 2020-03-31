@@ -1,55 +1,16 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.5.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-	id 'java'
-	id "org.flywaydb.flyway" version "6.3.1"
+    id 'java'
 }
 
-configurations {
-	compile.exclude module: "spring-boot-starter-tomcat"
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
+group 'ru.gribnoff'
+version '1.0'
+
+sourceCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-
-	implementation  'org.springframework.boot:spring-boot-starter-undertow'
-
-	compileOnly 'org.springframework.boot:spring-boot-devtools'
-
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	runtimeOnly 'org.postgresql:postgresql:42.2.11'
-
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
-
-	testImplementation 'com.h2database:h2:1.4.197'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-	implementation  'org.flywaydb:flyway-core:6.3.1'
-}
-
-jar {
-	enabled = true
-}
-
-test {
-	useJUnitPlatform()
-}
-
-flyway {
-	configFiles = ['src/main/resources/config/flyway.conf']
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }

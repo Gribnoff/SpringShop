@@ -1,4 +1,4 @@
-package ru.gribnoff.springshop.services;
+package ru.gribnoff.springshop.services.db;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,9 +34,9 @@ public class ShopUserService implements UserDetailsService {
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Role role) {
-        return role != null
-                ? new ArrayList<GrantedAuthority>() {{add((GrantedAuthority) role::name);}}
-                : new ArrayList<>();
+        return role != null ?
+                new ArrayList<GrantedAuthority>() {{add((GrantedAuthority) role::name);}} :
+                new ArrayList<>();
     }
 
     public boolean userExists(String phone) {
