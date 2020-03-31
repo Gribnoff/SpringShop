@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.gribnoff.springshop.beans.Cart;
 import ru.gribnoff.springshop.exceptions.ProductNotFoundException;
 import ru.gribnoff.springshop.services.db.ProductService;
+import ru.gribnoff.springshop.services.soap.PaymentService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,10 +23,12 @@ public class CartController  {
 
     private final Cart cart;
     private final ProductService productService;
+    private final PaymentService paymentService;
 
     @GetMapping
     public String showCart(Model model) {
         model.addAttribute("cart", cart);
+        model.addAttribute("payments", paymentService.getPayment("Russia"));
         return "cart";
     }
 
