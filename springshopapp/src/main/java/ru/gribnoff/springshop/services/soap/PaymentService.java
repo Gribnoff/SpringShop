@@ -14,6 +14,7 @@ public class PaymentService {
         PaymentPort paymentPort = new PaymentPortService().getPaymentPortSoap11();
         GetPaymentRequest request = new GetPaymentRequest();
         request.setCountry(country);
+        request.setPrice(price);
         GetPaymentResponse response;
 
         try {

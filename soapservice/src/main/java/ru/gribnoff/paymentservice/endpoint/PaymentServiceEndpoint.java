@@ -19,7 +19,7 @@ public class PaymentServiceEndpoint {
     @PayloadRoot(namespace = NAMESPACE, localPart = "getPaymentRequest")
     public GetPaymentResponse getPaymentResponse(@RequestPayload GetPaymentRequest request) {
         GetPaymentResponse response = new GetPaymentResponse();
-        response.getPayments().addAll(paymentRepository.getPayments(request.getCountry()));
+        response.getPayments().addAll(paymentRepository.getPayments(request.getCountry(), request.getPrice()));
         return response;
     }
 }
