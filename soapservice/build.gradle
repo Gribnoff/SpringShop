@@ -4,6 +4,11 @@ plugins {
     id 'java'
 }
 
+group 'ru.gribnoff'
+version '1.0'
+
+sourceCompatibility = 1.8
+
 configurations {
     compile.exclude module: "spring-boot-starter-tomcat"
     compileOnly {

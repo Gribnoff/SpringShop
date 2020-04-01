@@ -6,6 +6,11 @@ plugins {
 	id 'no.nils.wsdl2java' version '0.10'
 }
 
+group 'ru.gribnoff'
+version '1.0'
+
+sourceCompatibility = 1.8
+
 apply plugin: 'no.nils.wsdl2java'
 
 configurations {
@@ -68,5 +73,3 @@ wsdl2java{
 			[ file("${projectDir}/src/main/resources/META-INF/wsdl/payment/WsPayment.wsdl") ]
 	]
 }
-
-compileJava.dependsOn wsdl2java
