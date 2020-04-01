@@ -5,8 +5,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
+import ru.gribnoff.paymentservice.Payment;
 import ru.gribnoff.springshop.persistence.entities.CartRecord;
 import ru.gribnoff.springshop.persistence.entities.Product;
+import ru.gribnoff.springshop.services.soap.PaymentService;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
@@ -21,12 +23,18 @@ public class Cart implements Serializable {
 
     private static final long serialVersionUID = -292689907925405143L;
 
+    private final PaymentService paymentService;
+    private List<Payment> paymentSystems;
+    private Payment payment;
+
     private List<CartRecord> cartRecords;
     private Double price;
 
     @PostConstruct
     public void init() {
         cartRecords = new ArrayList<>();
+        recalculatePrice();
+        paymentSystems = paymentService.getPayments("Russia", this.getPrice());
     }
 
     public void clear() {

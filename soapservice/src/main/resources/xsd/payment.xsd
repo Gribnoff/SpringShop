@@ -26,6 +26,7 @@
             <xs:element name="name" type="xs:string" />
             <xs:element name="country" type="xs:string" />
             <xs:element name="price" type="xs:double" />
+            <xs:element name="fee" type="xs:double" />
         </xs:sequence>
     </xs:complexType>
 

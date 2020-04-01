@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress HtmlUnknownAttribute -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       lang="EN">
@@ -40,27 +41,30 @@
         <span th:text="'Общая стоимость: ' + ${cart.price}"></span>
     </div>
     <div th:if="${cart.cartRecords.size() == 0}">
-        <span text="Ваша корзина пуста"></span>
+        <span th:text="Ваша корзина пуста"></span>
     </div>
 
-
-    <div class="row" th:if="${payments.size() > 0}">
-        <div class="col-sm">
-            Выберите способ оплаты:
-            <label>
-                <select id="payment" name="payment">
-                    <option th:each="payment : ${payments}"
-                            th:value="${payment.name}"
-                            th:text="${payment.name}">
-                    </option>
-                </select>
-            </label>
+    <form method="post" th:action="@{/checkout}">
+        <div class="row" th:if="${cart.paymentSystems.size() > 0 && cart.cartRecords.size() > 0}">
+            <div class="col-sm">
+                Выберите способ оплаты:
+                <label>
+                    <select id="payment" name="paymentId">
+                        <option th:each="payment : ${cart.paymentSystems}"
+                                th:value="${payment.id}"
+                                th:text="${payment.name}">
+                        </option>
+                    </select>
+                </label>
+            </div>
+            <div class="col-sm">
+                <input type="submit" class="btn btn-primary" value="Перейти к оплате покупок" />
+            </div>
         </div>
-    </div>
-    <div class="row" th:if="${payments.size() == 0}">
-        <div>К сожалению сервис оплаты временно недоступен! Попробуйте оплатить позднее! </div>
-    </div>
+        <div class="row" th:if="${cart.paymentSystems.size() == 0}">
+            <div>К сожалению сервис оплаты временно недоступен! Попробуйте оплатить позднее! </div>
+        </div>
+    </form>
 </div>
-
 </body>
 </html>

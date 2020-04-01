@@ -5,12 +5,15 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.gribnoff.paymentservice.Payment;
 import ru.gribnoff.springshop.beans.Cart;
 import ru.gribnoff.springshop.services.db.ProductService;
 import ru.gribnoff.springshop.services.db.ShopUserService;
 import ru.gribnoff.springshop.util.CaptchaGenerator;
+import ru.gribnoff.springshop.util.PaymentServiceUtil;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
@@ -55,5 +58,17 @@ public class ShopController {
         ImageIO.write(bufferedImage, "png", out);
 
         return out.toByteArray();
+    }
+
+    @PostMapping("/checkout")
+    public String proceedToCheckout(Model model, String paymentId) {
+        Payment payment = cart.getPaymentSystems()
+                .stream()
+                .filter(p -> p.getId() == Integer.parseInt(paymentId))
+                .collect(PaymentServiceUtil.toSingleton());
+        cart.setPayment(payment);
+
+        model.addAttribute("cart", cart);
+        return "checkout";
     }
 }

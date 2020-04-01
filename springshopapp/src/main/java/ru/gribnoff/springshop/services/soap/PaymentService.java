@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
-    public List<Payment> getPayment(String country) {
+    public List<Payment> getPayments(String country, Double price) {
         PaymentPort paymentPort = new PaymentPortService().getPaymentPortSoap11();
         GetPaymentRequest request = new GetPaymentRequest();
         request.setCountry(country);
