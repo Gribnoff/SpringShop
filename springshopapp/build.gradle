@@ -73,9 +73,11 @@ wsdl2javaExt {
 }
 
 wsdl2java{
-	generatedWsdlDir = file("${projectDir}/src/main/generated")
+	generatedWsdlDir = file("${projectDir}/src/main/generated-source")
 	wsdlDir=file("${projectDir}/src/main/resources/META-INF/wsdl/")
 	wsdlsToGenerate = [
 			[ file("${projectDir}/src/main/resources/META-INF/wsdl/payment/WsPayment.wsdl") ]
 	]
 }
+
+sourceSets.main.java.srcDirs "src/main/generated-source"

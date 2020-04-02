@@ -47,7 +47,7 @@ dependencies {
 task jaxb {
 
     System.setProperty('javax.xml.accessExternalSchema', 'all')
-    def jaxbTargetDir = file("src/main/generated")
+    def jaxbTargetDir = file("src/main/generated-source")
 
     doLast {
         jaxbTargetDir.mkdirs()
@@ -73,3 +73,5 @@ compileJava.dependsOn jaxb
 test {
     useJUnitPlatform()
 }
+
+sourceSets.main.java.srcDirs "src/main/generated-source"
