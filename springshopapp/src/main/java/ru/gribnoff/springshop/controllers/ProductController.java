@@ -1,6 +1,7 @@
 package ru.gribnoff.springshop.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +40,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/products")
 public class ProductController {
-
+    private final AmqpTemplate amqpTemplate;
     private final ImageService imageService;
     private final ProductService productService;
     private final ShopUserService shopUserService;
@@ -111,6 +112,8 @@ public class ProductController {
                     .image(img)
                     .approved(approved)
                     .build();
+
+            amqpTemplate.convertAndSend("spring-shop.exchange", "spring.shop", "User " + shopUser.getPhone() + " has sent a review");
 
             reviewService.saveReview(review);
             return "redirect:/products/" + product.getId();

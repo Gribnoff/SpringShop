@@ -24,7 +24,7 @@ public class Product extends PersistableEntity {
     private String description;
     private boolean available;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "product_image",
             joinColumns = @JoinColumn(name = "product"),

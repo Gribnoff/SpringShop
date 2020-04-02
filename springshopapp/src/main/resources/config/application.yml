@@ -14,6 +14,17 @@ spring:
       ddl-auto: validate
   thymeleaf:
     cache: false
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+springshop:
+  rabbitmq:
+    exchange: spring-shop.exchange
+    routing-key: spring.shop
+    queue: spring-shop.queue
 
 files:
   storepath:
