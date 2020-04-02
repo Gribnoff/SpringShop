@@ -1,0 +1,16 @@
+jib {
+    from {
+        image = 'dockette/jdk8'
+    }
+    to {
+        image = 'localhost:5000/springshop/demo'
+        tags = [ '0.1' ]
+    }
+    container {
+        jvmFlags = [ '-Xms1024m', '-Xdebug' ]
+        mainClass = 'ru.gribnoff.springshop.Application'
+        ports = [ '8080/tcp' ]
+    }
+}
+
+jib.to.image = "gribnoff/${rootProject.name}"

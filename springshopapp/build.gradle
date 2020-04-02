@@ -4,6 +4,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id "org.flywaydb.flyway" version "6.3.1"
 	id 'no.nils.wsdl2java' version '0.10'
+	id 'com.google.cloud.tools.jib' version '1.8.0'
 }
 
 group 'ru.gribnoff'
@@ -12,6 +13,8 @@ version '1.0'
 sourceCompatibility = 1.8
 
 apply plugin: 'no.nils.wsdl2java'
+apply plugin: 'com.google.cloud.tools.jib'
+apply from: 'gradle/jib.gradle'
 
 configurations {
 	compile.exclude module: "spring-boot-starter-tomcat"
