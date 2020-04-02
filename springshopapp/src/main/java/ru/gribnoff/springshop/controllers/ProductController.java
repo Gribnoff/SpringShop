@@ -64,7 +64,7 @@ public class ProductController {
     }
 
     @ResponseBody
-    @GetMapping(value = "/icons/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(value = "/icons/{id:.+}", produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] getIconByName(@PathVariable String id) throws IOException {
         return getImage(id, ImageCategory.ICON);
     }
