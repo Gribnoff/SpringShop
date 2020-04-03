@@ -1,5 +1,6 @@
 package ru.gribnoff.springshop.persistence.entities;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Table(name = "images")
 @EqualsAndHashCode(callSuper = true)
+@ApiModel(description = "shop image")
 public class Image extends PersistableEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

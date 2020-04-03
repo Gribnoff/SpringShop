@@ -1,5 +1,7 @@
 package ru.gribnoff.springshop.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,7 @@ import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
+@Api("методы общего назначения")
 public class ShopController {
 
     private final Cart cart;
@@ -33,6 +36,7 @@ public class ShopController {
 
     @SuppressWarnings("unused")
     @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
+    @ApiOperation("главная страница")
     public String index(Model model, @RequestParam(required = false) Integer category) {
         model.addAttribute("cart", cart.getCartRecords());
         model.addAttribute("products", productService.findAll(category));
@@ -40,6 +44,7 @@ public class ShopController {
     }
 
     @GetMapping("/profile")
+    @ApiOperation("личный кабинет")
     public String profilePage(Model model, Principal principal) {
         if (principal == null)
             return "redirect:/";
@@ -51,6 +56,7 @@ public class ShopController {
 
     @GetMapping(value = "/captcha", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
+    @ApiOperation("генерация капчи")
     public byte[] getCaptcha(HttpSession session) throws IOException {
         BufferedImage bufferedImage = captchaGenerator.getCaptchaImage();
         session.setAttribute("captchaCode", captchaGenerator.getCaptchaString());
@@ -61,6 +67,7 @@ public class ShopController {
     }
 
     @PostMapping("/checkout")
+    @ApiOperation("подтверждение заказа")
     public String proceedToCheckout(Model model, String paymentId) {
         Payment payment = cart.getPaymentSystems()
                 .stream()

@@ -26,12 +26,11 @@ class Swagger2Config extends WebMvcConfigurationSupport {
 
     private ApiInfo apiEndPointsInfo() {
         return new ApiInfoBuilder()
-                .title("SPRING SHOP REST API")
-                .description("Spring Shop API")
+                .title("Spring Shop API")
+                .description("Spring Shop Documentation")
                 .license("GNU GPLv3")
                 .licenseUrl("https://www.gnu.org/licenses/gpl-3.0.ru.html")
                 .version("0.1")
-                .title("Spring Shop Documentation")
                 .build();
     }
 

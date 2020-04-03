@@ -1,5 +1,7 @@
 package ru.gribnoff.springshop.persistence.entities;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,17 +14,21 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "cart_records")
 @EqualsAndHashCode(callSuper = true)
+@ApiModel("запись в корзине покупок")
 public class CartRecord extends PersistableEntity {
-
+    @ApiModelProperty(notes = "количество единиц товара")
     private Integer quantity;
+    @ApiModelProperty(notes = "цена единицы товара")
     private Double price;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product")
+    @ApiModelProperty(notes = "товар магазина")
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "purchase")
+    @ApiModelProperty(notes = "заказ, к которому относится эта покупка")
     private Purchase purchase;
 
     public CartRecord(Product product) {

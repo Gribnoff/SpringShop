@@ -1,5 +1,7 @@
 package ru.gribnoff.springshop.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.http.MediaType;
@@ -39,6 +41,7 @@ import java.util.UUID;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/products")
+@Api("действия с товарами")
 public class ProductController {
     private final AmqpTemplate amqpTemplate;
     private final ImageService imageService;
@@ -48,6 +51,7 @@ public class ProductController {
 
     @SuppressWarnings("unused")
     @GetMapping("/{id}")
+    @ApiOperation("страница определённого товара")
     public String showProductPage(Model model, @PathVariable String id) throws ProductNotFoundException {
         Product product = productService.findOneById(UUID.fromString(id));
         List<Review> reviews = reviewService.getReviewsByProduct(product).orElse(new ArrayList<>());
@@ -60,18 +64,21 @@ public class ProductController {
     @SuppressWarnings("unused")
     @ResponseBody
     @GetMapping(value = "/images/{id}", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    @ApiOperation("получение фото товара по id изображения")
     public byte[] getProductImageByImageId(@PathVariable String id) throws IOException {
         return getImage(id, ImageCategory.PRODUCT_IMAGE);
     }
 
     @ResponseBody
     @GetMapping(value = "/icons/{id:.+}", produces = MediaType.IMAGE_PNG_VALUE)
+    @ApiOperation("получение иконки по id изображения")
     public byte[] getIconByName(@PathVariable String id) throws IOException {
         return getImage(id, ImageCategory.ICON);
     }
 
     @ResponseBody
     @GetMapping(value = "/reviews/images/{id}", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    @ApiOperation("получение фото отзыва по id изображения")
     public byte[] getReviewPhotoByImageId(@PathVariable String id) throws IOException {
         return getImage(id, ImageCategory.REVIEW_PHOTO);
     }
@@ -90,6 +97,7 @@ public class ProductController {
 
     @PostMapping
     @SuppressWarnings("SpringMVCViewInspection")
+    @ApiOperation("добавление товара а базу")
     public String addProductToDatabase(@RequestParam("image") MultipartFile image, ProductPojo productPojo) throws IOException {
         Image img = imageService.uploadImage(image, ImageCategory.PRODUCT_IMAGE);
         productService.save(productPojo, new ArrayList<>(Collections.singletonList(img)));
@@ -97,6 +105,7 @@ public class ProductController {
     }
 
     @PostMapping("/reviews")
+    @ApiOperation(value = "добавление отзыва", response = String.class, httpMethod = "POST")
     public String addReview(ReviewPojo reviewPojo, @RequestParam(value = "image", required = false) MultipartFile image, HttpSession session, Principal principal) throws ProductNotFoundException, IOException {
         if (reviewPojo.getCaptchaCode().toUpperCase().equals(session.getAttribute("captchaCode"))) {
             Product product = productService.findOneById(reviewPojo.getProductId());
