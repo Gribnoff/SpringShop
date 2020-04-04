@@ -2,4 +2,3 @@ rootProject.name = 'springshop'
 include 'soapservice'
 include 'springshopapp'
 include 'configserver'
-

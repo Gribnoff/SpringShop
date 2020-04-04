@@ -29,11 +29,17 @@ repositories {
 
 def swaggerVersion = '2.8.0'
 
+ext {
+	set('springCloudVersion', "Hoxton.SR3")
+}
+
 dependencies {
 
 	implementation  'org.springframework.boot:spring-boot-starter-undertow'
 
 	compileOnly 'org.springframework.boot:spring-boot-devtools'
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -83,6 +89,12 @@ wsdl2java{
 	wsdlsToGenerate = [
 			[ file("${projectDir}/src/main/resources/META-INF/wsdl/payment/WsPayment.wsdl") ]
 	]
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }
 
 sourceSets.main.java.srcDirs "src/main/generated-source"
