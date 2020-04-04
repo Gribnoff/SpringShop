@@ -1,5 +1,6 @@
 package ru.gribnoff.springshop.beans;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Data
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+@ApiModel("корзина покупок")
 public class Cart implements Serializable {
 
     private static final long serialVersionUID = -292689907925405143L;
