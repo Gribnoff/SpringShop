@@ -37,9 +37,14 @@ public class ShopController {
     @SuppressWarnings("unused")
     @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
     @ApiOperation("главная страница")
-    public String index(Model model, @RequestParam(required = false) Integer category) {
+    public String index(Model model,
+                        @RequestParam(required = false) Integer category,
+                        @RequestParam(required = false) Integer minPrice,
+                        @RequestParam(required = false) Integer maxPrice,
+                        @RequestParam(required = false) Boolean notAvailable
+                        ) {
         model.addAttribute("cart", cart.getCartRecords());
-        model.addAttribute("products", productService.findAll(category));
+        model.addAttribute("products", productService.findAll(category, minPrice, maxPrice, notAvailable));
         return "index";
     }
 
