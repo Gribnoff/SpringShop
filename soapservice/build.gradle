@@ -21,7 +21,7 @@ repositories {
     mavenCentral()
 }
 
-sourceSets.main.java.srcDirs "src/main/generated"
+sourceSets.main.java.srcDirs "src/main/generated-source"
 sourceSets.main.resources.excludes = ['payment.xsd']
 
 dependencies {
@@ -38,6 +38,7 @@ dependencies {
             'com.sun.xml.bind:jaxb-xjc:2.2.7',
             'com.sun.xml.bind:jaxb-impl:2.2.7'
     )
+
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
