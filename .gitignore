@@ -5,6 +5,7 @@ build/
 !**/src/main/**
 !**/src/test/**
 **/generated-source/**
+local.properties
 
 ### STS ###
 .apt_generated
