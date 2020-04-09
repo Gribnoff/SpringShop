@@ -2,5 +2,5 @@ rootProject.name = 'springshop'
 include 'soapservice'
 include 'springshopapp'
 include 'configserver'
-include 'pdfmock'
+include 'cloudserver'
 
