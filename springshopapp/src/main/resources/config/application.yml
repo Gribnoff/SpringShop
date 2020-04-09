@@ -32,3 +32,7 @@ files:
     product-images: "B:\\myProjects\\SpringShop\\springshopapp\\images\\product_images"
     review-photos: "B:\\myProjects\\SpringShop\\springshopapp\\images\\review_photos"
     images-dump: "B:\\myProjects\\SpringShop\\springshopapp\\images\\dump"
+
+documents:
+  service:
+    url: "localhost:10210/documents"

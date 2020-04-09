@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import ru.gribnoff.paymentservice.Payment;
 import ru.gribnoff.springshop.beans.Cart;
 import ru.gribnoff.springshop.services.db.ProductService;
 import ru.gribnoff.springshop.services.db.ShopUserService;
+import ru.gribnoff.springshop.services.feign.clients.ShopFeignClient;
 import ru.gribnoff.springshop.util.CaptchaGenerator;
 import ru.gribnoff.springshop.util.PaymentServiceUtil;
 
@@ -30,9 +32,11 @@ import java.security.Principal;
 public class ShopController {
 
     private final Cart cart;
+    private final CaptchaGenerator captchaGenerator;
+
     private final ProductService productService;
     private final ShopUserService shopUserService;
-    private final CaptchaGenerator captchaGenerator;
+    private final ShopFeignClient shopFeignClient;
 
     @SuppressWarnings("unused")
     @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
@@ -82,5 +86,11 @@ public class ShopController {
 
         model.addAttribute("cart", cart);
         return "checkout";
+    }
+
+    @GetMapping("/flyer")
+    @ApiOperation("feign client demonstration")
+    public ResponseEntity<byte[]> getFlyer() {
+        return shopFeignClient.getFlyer();
     }
 }
