@@ -89,4 +89,10 @@ public class ProductService {
         log.info("New Product has been successfully added! {}", product);
         return "redirect:/";
     }
+
+	@Transactional
+	public void save(Product product) {
+		productRepository.save(product);
+		log.info("New Product has been successfully added! {}", product);
+	}
 }

@@ -1,0 +1,32 @@
+[
+  {
+    "productId": "9a977f7f-92c3-44c2-a475-2b246b36cc30",
+    "comment": "Ананасы",
+    "captchaCode": 123456
+  },
+  {
+    "productId": "9a977f7f-92c3-44c2-a475-2b246b36cc30",
+    "comment": "Ананасы2",
+    "captchaCode": 123456
+  },
+  {
+    "productId": "46985b15-7f91-4aaf-aef6-4db0f6deed8f",
+    "comment": "Бананы",
+    "captchaCode": 123456
+  },
+  {
+    "productId": "13498fb4-837f-4bdb-b660-9aa909a91a76",
+    "comment": "Кефир",
+    "captchaCode": 123456
+  },
+  {
+    "productId": "9a977f7f-92c3-44c2-a475-2b246b36cc30",
+    "comment": "Ананасы3",
+    "captchaCode": 123456
+  },
+  {
+    "productId": "46985b15-7f91-4aaf-aef6-4db0f6deed8f",
+    "comment": "Бананы2",
+    "captchaCode": 123456
+  }
+]

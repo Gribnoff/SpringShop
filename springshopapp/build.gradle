@@ -66,6 +66,7 @@ dependencies {
 
 	testImplementation 'com.h2database:h2:1.4.197'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 
 	implementation  'org.flywaydb:flyway-core:6.3.1'
 }

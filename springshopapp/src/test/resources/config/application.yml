@@ -1,0 +1,32 @@
+constants:
+  test_root_path: localhost:8189/springshop
+
+spring:
+  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    jpa:
+#      hibernate:
+#        ddl-auto: create
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+    username: sa
+    password: sa
+  flyway:
+    enabled: false
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+
+files:
+  storepath:
+    icons:
+    images:
+
+springshop:
+  rabbitmq:
+    exchange:
+    routingkey:
+    queue:
+
+documents:
+  service:
+    url:
