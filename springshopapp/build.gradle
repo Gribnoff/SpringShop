@@ -79,7 +79,7 @@ test {
 }
 
 flyway {
-	configFiles = [ file("${projectDir}src/main/resources/config/flyway.conf") ]
+	configFiles = [ file("${projectDir}/src/main/resources/config/flyway.conf") ]
 }
 
 wsdl2javaExt {

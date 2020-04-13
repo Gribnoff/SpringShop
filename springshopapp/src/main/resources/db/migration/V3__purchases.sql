@@ -4,7 +4,7 @@ create table if not exists purchases
 		constraint purchases_pk
 			primary key,
 	price double precision,
-	address varchar(255),
+	email varchar(255),
 	phone varchar(255)
 );
 

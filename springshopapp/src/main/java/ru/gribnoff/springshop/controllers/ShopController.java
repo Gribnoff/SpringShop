@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.gribnoff.paymentservice.Payment;
 import ru.gribnoff.springshop.beans.Cart;
+import ru.gribnoff.springshop.persistence.entities.CartRecord;
+import ru.gribnoff.springshop.persistence.entities.Purchase;
+import ru.gribnoff.springshop.persistence.entities.ShopUser;
 import ru.gribnoff.springshop.services.db.ProductService;
+import ru.gribnoff.springshop.services.db.PurchaseService;
 import ru.gribnoff.springshop.services.db.ShopUserService;
 import ru.gribnoff.springshop.services.feign.clients.ShopFeignClient;
 import ru.gribnoff.springshop.util.CaptchaGenerator;
@@ -25,6 +29,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,6 +40,7 @@ public class ShopController {
     private final CaptchaGenerator captchaGenerator;
 
     private final ProductService productService;
+    private final PurchaseService purchaseService;
     private final ShopUserService shopUserService;
     private final ShopFeignClient shopFeignClient;
 
@@ -92,5 +98,28 @@ public class ShopController {
     @ApiOperation("feign client demonstration")
     public ResponseEntity<byte[]> getFlyer() {
         return shopFeignClient.getFlyer();
+    }
+
+    @PostMapping("/purchase")
+    public String finishOrderAndPay(String phone, String email, Principal principal, Model model) {
+
+        ShopUser shopuser = shopUserService.findShopUserByPhone(principal.getName());
+
+        Purchase purchase = Purchase.builder()
+                .shopUser(shopuser)
+                .products(cart.getCartRecords()
+                        .stream()
+                        .map(CartRecord::getProduct)
+                        .collect(Collectors.toList())
+                )
+                .price(cart.getPrice() + cart.getPayment().getFee())
+                .phone(phone)
+                .email(email)
+                .build();
+
+        model.addAttribute("purchase", purchaseService.makePurchase(purchase));
+
+        return "orderdone";
+
     }
 }
