@@ -26,7 +26,7 @@ create table if not exists products
 
 alter table products owner to postgres;
 
-INSERT INTO public.images (id, name)
+INSERT INTO shop.images (id, name)
     VALUES  ('08b39bd2-5357-43f1-aa3e-d1b9ce028e5e', 'apple.png'),
             ('290679fa-9812-44c6-aa22-df5689d99e14', 'bread.png'),
             ('b85d8706-d663-4311-a15a-fea21e476ee9', 'cheese.png'),
@@ -37,7 +37,7 @@ INSERT INTO public.images (id, name)
             ('62b68ec4-7e33-4bce-a27e-cffb558040f1', 'tea.png');
 
 -- noinspection SqlResolve @ column/"image"
-INSERT INTO public.products (description, id, price, title, added, available, image, category)
+INSERT INTO shop.products (description, id, price, title, added, available, image, category)
     VALUES  (null, '9ec9ea5a-f9ef-4159-9a9c-bfeedc77ca23', 80, 'Лимонад', '2020-03-16 10:19:29.622000', true, '9ec9ea5a-f9ef-4159-9a9c-bfeedc77ca23', 0),
             (null, '290679fa-9812-44c6-aa22-df5689d99e14', 50, 'Хлеб', '2020-03-15 22:54:21.184000', true, '290679fa-9812-44c6-aa22-df5689d99e14', 1),
             (null, '08b39bd2-5357-43f1-aa3e-d1b9ce028e5e', 150, 'Яблоки', '2020-03-15 22:54:21.184000', true, '08b39bd2-5357-43f1-aa3e-d1b9ce028e5e', 1),

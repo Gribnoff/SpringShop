@@ -13,9 +13,9 @@ create unique index roles_id_uindex
 create unique index roles_name_uindex
     on roles (name);
 
-INSERT INTO public.roles (id, name) VALUES (1, 'ROLE_ADMIN');
-INSERT INTO public.roles (id, name) VALUES (2, 'ROLE_CUSTOMER');
-INSERT INTO public.roles (id, name) VALUES (3, 'ROLE_MANAGER');
+INSERT INTO shop.roles (id, name) VALUES (1, 'ROLE_ADMIN');
+INSERT INTO shop.roles (id, name) VALUES (2, 'ROLE_CUSTOMER');
+INSERT INTO shop.roles (id, name) VALUES (3, 'ROLE_MANAGER');
 
 
 create table if not exists shopusers
@@ -48,7 +48,7 @@ alter table purchases
 create unique index shopuser_phone_uindex
     on shopusers (phone);
 
-INSERT INTO public.shopusers (id, phone, password, email, first_name, last_name)
+INSERT INTO shop.shopusers (id, phone, password, email, first_name, last_name)
     VALUES  ('6b718067-e1e4-4202-a7e2-7339ea0d6cb4', 'anonymous', 'anonymous', 'anonymous@springshop.com', 'anonymous', 'anonymous'),
             ('fbe5a8e7-8555-4ee8-bff2-c572447e5f25', 'admin', '$2y$12$pvkdAgbpPSg/pnRIxSSMOe3oBtFI1gnclOfgEvDY5wAU4vZrwrqBW', 'admin@springshop.com', 'Admin', 'Admin'),
             ('04c8bd30-ba4e-4e82-b996-db907e37a2c6', 'user', '$2y$12$RzcNIXtkdIZQ9NttEF2DVOj4RYGn3guYT3CKFOWbnvX2t4hIm3jyK', 'user@springshop.com', 'User', 'User');
@@ -68,7 +68,7 @@ create table if not exists shopuser_role
 
 alter table shopuser_role owner to postgres;
 
-INSERT INTO public.shopuser_role (shopuser, role)
+INSERT INTO shop.shopuser_role (shopuser, role)
     VALUES  ('6b718067-e1e4-4202-a7e2-7339ea0d6cb4', 2),
             ('04c8bd30-ba4e-4e82-b996-db907e37a2c6', 2),
             ('fbe5a8e7-8555-4ee8-bff2-c572447e5f25', 1);
