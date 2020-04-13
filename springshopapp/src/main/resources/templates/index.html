@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<!--suppress HtmlUnknownTag, HtmlUnknownAttribute -->
+<!--suppress HtmlUnknownTag, HtmlUnknownAttribute, RequiredAttributes -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml"
-      lang="EN">
+      lang="RU">
     <head>
         <meta charset="utf-8"/>
         <title>SpringShop</title>
@@ -11,49 +11,12 @@
     </head>
     <body>
         <div class="container">
-
             <div style="text-align: center;">
                 <h1>Spring Shop</h1>
             </div>
-            <hr>
-
-            <div class="container" sec:authorize="isAuthenticated()">
-                <div class="row">
-                    <div class="col-sm">
-                        <a class="nav-link" th:href="@{/profile}" th:text="Profile">PROFILE</a>
-                        <a sec:authorize="hasRole('ADMIN')" class="nav-link"
-                           th:href="@{/admin}" th:text="admin">ADMIN</a>
-                    </div>
-                    <div class="col-sm">
-                        <form th:action="@{/logout}" method="POST" class="form-inline">
-                            <button id="navLogout" class="btn btn-outline-secondary" style="margin: 0 auto 0;"
-                                    type="submit"  th:text="logout"></button>
-                        </form>
-                    </div>
-                    <div class="col-sm">
-                        <a class="nav-link" style="text-align: end;" th:href="@{/cart}" th:text="Корзина + '(' + ${cart.size() + ')'}">CART</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container" sec:authorize="isAnonymous()">
-                <form th:action="@{/authenticateTheUser}" method="POST" class="form-inline">
-                    <div class="row" style="margin-left: auto;margin-right: auto;">
-                        <div class="col-sm">
-                            <!--suppress HtmlFormInputWithoutLabel -->
-                            <input type="text" name="username" placeholder="username" class="form-control">
-                        </div>
-                        <div class="col-sm">
-                            <!--suppress HtmlFormInputWithoutLabel -->
-                            <input type="password" name="password" placeholder="password" class="form-control">
-                        </div>
-                        <div class="col-sm">
-                            <button type="submit" class="btn btn-success">вход</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
             <br>
+            <div th:replace="~{navigation :: navigation(Home)}"></div>
+            <hr>
 
             <table class="table table-hover">
                 <thead class="thead-dark">
@@ -74,9 +37,7 @@
                         </td>
                         <td>
                             <div>
-                                <!--suppress RequiredAttributes -->
                                 <img th:src="@{'/products/images/' + ${product.images[0].id}}" alt="" width="50px" height="50px" />
-                                <!--suppress RequiredAttributes -->
                                 <img th:if="*{images.size() > 1}" th:src="@{'/products/images/' + ${product.images[1].id}}" alt="" width="50px" height="50px" />
                             </div>
                         </td>
@@ -88,7 +49,6 @@
                         <td>
                             <div sec:authorize="isAuthenticated()">
                                 <a th:href="@{'/cart/add/' + ${product.id}}">
-                                    <!--suppress RequiredAttributes -->
                                     <img th:src="@{'/products/icons/cart.png'}" alt="" width="30px" height="30px" />
                                 </a>
                             </div>
@@ -121,7 +81,7 @@
                                 <input type="number" class="form-control col" placeholder="0" min="0" max="100000" name="minPrice" id="minPrice">
                             </div>
                             <div class="form-group row">
-                                <label for="maxPrice" class="col-3 col-form-label">от:</label>
+                                <label for="maxPrice" class="col-3 col-form-label">до:</label>
                                 <input type="number" class="form-control col" placeholder="10000" min="0" max="100000" name="maxPrice" id="maxPrice">
                             </div>
                         </label>

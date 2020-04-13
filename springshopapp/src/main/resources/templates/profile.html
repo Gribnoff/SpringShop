@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      lang="EN">
+      lang="RU">
     <head>
         <meta charset="utf-8"/>
         <title>Заготовка магазина</title>
@@ -12,7 +12,11 @@
     </head>
     <body>
         <div class="container">
-            <h1>Профиль</h1>
+            <div th:replace="~{navigation :: navigation(Home)}"></div>
+            <br>
+            <div style="text-align: center;">
+                <h1>Профиль</h1>
+            </div>
             <h5 th:text="'Name: ' + ${shopUser.firstName} + ' ' + ${shopUser.lastName}"></h5>
             <h5 th:text="'Phone: ' + ${shopUser.phone}"></h5>
         </div>

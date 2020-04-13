@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml"
-      lang="EN">
+      lang="RU">
     <head>
         <meta charset="utf-8"/>
         <title>SpringShop</title>
@@ -13,7 +13,11 @@
     </head>
     <body>
         <div class="container">
-            <h1>[[ ${product.title} ]]</h1>
+            <div th:replace="~{navigation :: navigation(Home)}"></div>
+            <br>
+            <div style="text-align: center;">
+                <h1>[[ ${product.title} ]]</h1>
+            </div>
             <hr>
             <div>
                 <span th:each="image : ${product.images}">

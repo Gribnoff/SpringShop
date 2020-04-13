@@ -2,7 +2,7 @@
 <!--suppress HtmlFormInputWithoutLabel -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      lang="EN">
+      lang="RU">
     <head>
         <meta charset="utf-8"/>
         <title>SuperShop</title>
@@ -10,7 +10,8 @@
     </head>
     <body>
         <div class="container">
-
+            <div th:replace="~{navigation :: navigation(Home)}"></div>
+            <br>
             <div style="text-align: center;">
                 <h1>Admin Page</h1>
             </div>
@@ -34,6 +35,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                    <!--/*@thymesVar id="product" type="ru.gribnoff.springshop.persistence.entities.Product"*/-->
                     <tr th:each="product, iterator : ${products}" th:object="${product}">
                         <span th:if="*{available}">
                             <td th:text="${iterator.index + 1}"></td>
