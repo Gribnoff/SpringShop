@@ -3,4 +3,5 @@ include 'soapservice'
 include 'springshopapp'
 include 'configserver'
 include 'cloudserver'
+include 'oauth'
 

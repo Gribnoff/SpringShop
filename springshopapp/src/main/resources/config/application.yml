@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/springshop?useSSL=false&serverTimezone=UTC
+    url: jdbc:postgresql://localhost:5432/springshop?currentSchema=shop&useSSL=false&serverTimezone=UTC
     username: postgres
     password: postgres
   jpa:
