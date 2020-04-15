@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.gribnoff.springshop.exceptions.ProductNotFoundException;
+import ru.gribnoff.springshop.exceptions.NotFoundException;
 import ru.gribnoff.springshop.exceptions.WrongCaptchaCodeException;
 import ru.gribnoff.springshop.persistence.entities.Image;
 import ru.gribnoff.springshop.persistence.entities.Product;
@@ -52,7 +52,7 @@ public class ProductController {
     @SuppressWarnings("unused")
     @GetMapping("/{id}")
     @ApiOperation("страница определённого товара")
-    public String showProductPage(Model model, @PathVariable String id) throws ProductNotFoundException {
+    public String showProductPage(Model model, @PathVariable String id) throws NotFoundException {
         Product product = productService.findOneById(UUID.fromString(id));
         List<Review> reviews = reviewService.getReviewsByProduct(product).orElse(new ArrayList<>());
 
@@ -106,7 +106,7 @@ public class ProductController {
 
     @PostMapping("/reviews")
     @ApiOperation(value = "добавление отзыва", response = String.class, httpMethod = "POST")
-    public String addReview(ReviewPojo reviewPojo, @RequestParam(value = "image", required = false) MultipartFile image, HttpSession session, Principal principal) throws ProductNotFoundException, IOException {
+    public String addReview(ReviewPojo reviewPojo, @RequestParam(value = "image", required = false) MultipartFile image, HttpSession session, Principal principal) throws NotFoundException, IOException {
         if (reviewPojo.getCaptchaCode().toUpperCase().equals(session.getAttribute("captchaCode"))) {
             Product product = productService.findOneById(reviewPojo.getProductId());
             ShopUser shopUser = shopUserService.findShopUserByPhone(principal.getName());

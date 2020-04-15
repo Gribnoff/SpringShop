@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.gribnoff.springshop.exceptions.ProductNotFoundException;
+import ru.gribnoff.springshop.exceptions.NotFoundException;
 import ru.gribnoff.springshop.persistence.entities.Image;
 import ru.gribnoff.springshop.persistence.entities.Product;
 import ru.gribnoff.springshop.persistence.pojo.ProductPojo;
@@ -26,9 +26,9 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public Product findOneById(UUID uuid) throws ProductNotFoundException {
+    public Product findOneById(UUID uuid) throws NotFoundException {
         return productRepository.findById(uuid).orElseThrow(
-            () -> new ProductNotFoundException("Oops! Product " + uuid + " wasn't found!")
+            () -> new NotFoundException("Oops! Product " + uuid + " wasn't found!")
         );
     }
 
@@ -38,12 +38,6 @@ public class ProductService {
 
 
 	public List<Product> findAll(Integer category, Integer minPrice, Integer maxPrice, Boolean notAvailable) {
-        /*
-        return category == null ?
-                productRepository.findAll() :
-                productRepository.findAllByCategory(ProductCategory.values()[maxPrice]);
-        */
-
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
 
