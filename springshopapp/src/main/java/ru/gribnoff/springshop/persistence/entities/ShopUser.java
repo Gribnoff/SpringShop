@@ -1,5 +1,7 @@
 package ru.gribnoff.springshop.persistence.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import ru.gribnoff.springshop.persistence.entities.enums.Role;
@@ -27,5 +29,6 @@ public class ShopUser extends PersistableEntity {
     private Role role;
 
     @OneToMany(mappedBy = "shopUser")
-    private List<Purchase> purchase;
+    @JsonBackReference
+    private List<Purchase> purchases;
 }
