@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.gribnoff.springshop.exceptions.UserNotFoundException;
 import ru.gribnoff.springshop.persistence.entities.ShopUser;
 import ru.gribnoff.springshop.persistence.entities.enums.Role;
 import ru.gribnoff.springshop.persistence.repositories.ShopUserRepository;
@@ -21,13 +22,13 @@ public class ShopUserService implements UserDetailsService {
     private final ShopUserRepository shopUserRepository;
 
     public ShopUser findShopUserByPhone(String phone) {
-        return shopUserRepository.findShopUserByPhone(phone);
+        return shopUserRepository.findShopUserByPhone(phone).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
     }
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ShopUser shopUser = shopUserRepository.findShopUserByPhone(username);
+        ShopUser shopUser = findShopUserByPhone(username);
         if (shopUser == null)
             throw new UsernameNotFoundException("User not found!");
         return new User(shopUser.getPhone(), shopUser.getPassword(), mapRolesToAuthorities(shopUser.getRole()));
