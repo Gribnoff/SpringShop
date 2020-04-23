@@ -11,12 +11,12 @@ import java.util.stream.IntStream;
 public class CaptchaGenerator {
     private String captchaString;
 
-    private Color backgroundColor = Color.white;
-    private Color borderColor = Color.black;
-    private Color textColor = Color.black;
-    private Color circleColor = new Color(190, 160, 150);
+    private final Color backgroundColor = Color.white;
+    private final Color borderColor = Color.black;
+    private final Color textColor = Color.black;
+    private final Color circleColor = new Color(190, 160, 150);
 
-    private Font textFont = new Font("Verdana", Font.BOLD, 24);
+    private final Font textFont = new Font("Verdana", Font.BOLD, 24);
 
     public BufferedImage getCaptchaImage() {
         try {
