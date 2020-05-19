@@ -21,13 +21,13 @@ public class ShopUserService implements UserDetailsService {
     private final ShopUserRepository shopUserRepository;
 
     public ShopUser findShopUserByPhone(String phone) {
-        return shopUserRepository.findShopUserByPhone(phone);
+        return shopUserRepository.findShopUserByPhone(phone).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
     }
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ShopUser shopUser = shopUserRepository.findShopUserByPhone(username);
+        ShopUser shopUser = findShopUserByPhone(username);
         if (shopUser == null)
             throw new UsernameNotFoundException("User not found!");
         return new User(shopUser.getPhone(), shopUser.getPassword(), mapRolesToAuthorities(shopUser.getRole()));

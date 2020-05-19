@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.gribnoff.springshop.beans.Cart;
-import ru.gribnoff.springshop.exceptions.ProductNotFoundException;
+import ru.gribnoff.springshop.exceptions.NotFoundException;
 import ru.gribnoff.springshop.services.db.ProductService;
-import ru.gribnoff.springshop.services.soap.PaymentService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +35,7 @@ public class CartController  {
 
     @GetMapping("/add/{id}")
     @ApiOperation("добавление товара в корзину")
-    public void addProductToCart(@PathVariable UUID id, HttpServletRequest request, HttpServletResponse response) throws ProductNotFoundException, IOException {
+    public void addProductToCart(@PathVariable UUID id, HttpServletRequest request, HttpServletResponse response) throws IOException, NotFoundException {
         cart.add(productService.findOneById(id));
         response.sendRedirect(request.getHeader("referer"));
     }

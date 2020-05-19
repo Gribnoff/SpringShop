@@ -51,7 +51,7 @@ public class ImageService {
     private final ImageRepository imageRepository;
 
     private List<String> getImagesForProduct(UUID productId) {
-        return imageRepository.findImagesNamesByProductId(productId);
+        return imageRepository.findImageNamesByProductId(productId);
     }
 
     private Image getImageNameById(UUID imageId) {
@@ -105,20 +105,22 @@ public class ImageService {
     }
 
     public Image uploadReviewPhoto(MultipartFile image, Product product, ShopUser shopUser) throws IOException {
-        String fileExtension = getExtensionByStringHandling(image.getOriginalFilename()).get();
-        String uploadedFileName = product.getTitle() +
-                shopUser.getFirstName() +
-                shopUser.getLastName() +
-                "." + fileExtension;
+        String fileExtension = getExtensionByStringHandling(image.getOriginalFilename()).orElse(null);
+        StringBuilder uploadedFileName = new StringBuilder();
+        uploadedFileName.append(product.getTitle())
+                .append(shopUser.getFirstName())
+                .append(shopUser.getLastName());
+        if (fileExtension != null)
+            uploadedFileName.append(".").append(fileExtension);
         if (image.isEmpty())
             throw new FileNotFoundException("File not specified");
         else {
             if (isValidImageExtension(image)) {
-                Path path = Paths.get(getPathByCategory(ImageCategory.REVIEW_PHOTO).resolve(uploadedFileName).toUri().normalize());
+                Path path = Paths.get(getPathByCategory(ImageCategory.REVIEW_PHOTO).resolve(uploadedFileName.toString()).toUri().normalize());
                 image.transferTo(path);
             }
         }
-        return imageRepository.save(new Image(uploadedFileName));
+        return imageRepository.save(new Image(uploadedFileName.toString()));
     }
 
     private Path getPathByCategory(ImageCategory category) {

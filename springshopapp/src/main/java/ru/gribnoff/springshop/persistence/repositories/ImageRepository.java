@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ImageRepository extends JpaRepository<Image, UUID> {
-    @Query(value = "SELECT images.name FROM public.images " +
-            "JOIN public.product_image pi ON images.id = pi.image " +
-            "JOIN public.products p on pi.product = p.id " +
+    @Query(value = "SELECT images.name FROM shop.images " +
+            "JOIN shop.product_image pi ON images.id = pi.image " +
+            "JOIN shop.products p on pi.product = p.id " +
             "WHERE p.id = :id", nativeQuery = true)
-    List<String> findImagesNamesByProductId(@Param("id") UUID id);
+    List<String> findImageNamesByProductId(@Param("id") UUID id);
 
 //    @Query(value = "SELECT name FROM public.images " +
 //            "WHERE id = :id", nativeQuery = true)

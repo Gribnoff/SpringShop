@@ -1,5 +1,6 @@
 package ru.gribnoff.springshop.persistence.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class CartRecord extends PersistableEntity {
 
     @ManyToOne
     @JoinColumn(name = "purchase")
+    @JsonManagedReference
     @ApiModelProperty(notes = "заказ, к которому относится эта покупка")
     private Purchase purchase;
 

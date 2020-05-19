@@ -1,5 +1,7 @@
 package ru.gribnoff.springshop.persistence.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import ru.gribnoff.springshop.persistence.entities.util.PersistableEntity;
 
@@ -19,10 +21,12 @@ public class Purchase extends PersistableEntity {
 	private String phone;
 
 	@OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL)
+	@JsonBackReference
 	private List<CartRecord> cartRecords;
 
 	@ManyToOne
 	@JoinColumn(name = "shopuser")
+	@JsonManagedReference
 	private ShopUser shopUser;
 
 	@ManyToMany
